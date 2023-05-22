@@ -1,0 +1,144 @@
+.attractionPageCard {
+  height: 400px;
+  margin-top: 20px;
+  background: rgb(230, 230, 230);
+  display: flex;
+
+  justify-content: space-between;
+  border-radius: 20px 20px 20px 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+
+  //   overflow: hidden;
+  .attractionPageTexContainer {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px 15px 15px 45px;
+
+    .attractionPageTitolo {
+      text-align: center;
+      font-size: 50px;
+      font-weight: 800;
+    }
+    .attractionPageSottoTitolo {
+      font-size: 30px;
+      text-align: center;
+      color: orangered;
+    }
+
+    .attractionPagedescrizione {
+      text-align: center;
+
+      font-size: 1.2rem;
+    }
+    .attractionPageIndirizzo {
+      text-align: end;
+      padding: 0;
+      margin: 0;
+      color: grey;
+    }
+    .attractionPagePartecipanti {
+      text-align: end;
+      padding: 0;
+      margin: 0;
+      color: rgb(255, 17, 0);
+      span {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+        &:hover {
+          color: rgb(64, 64, 250);
+        }
+      }
+    }
+    .attractionPageButtonContainer {
+      display: flex;
+      justify-content: flex-end;
+      button {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
+        margin: 4px 12px;
+        padding: 4px 8px;
+        background-color: rgb(148, 39, 126);
+        color: #f0f8ff;
+        &:hover {
+          color: #87cefa;
+          box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.75);
+        }
+        &:nth-child(3) {
+          background-color: rgb(157, 9, 9);
+        }
+      }
+    }
+  }
+  .attractionPageTexImageContainerWrapper {
+    width: 50%;
+    filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.75));
+  }
+  .attractionPageTexImageContainer {
+    width: 100%;
+    overflow: hidden;
+    clip-path: polygon(20% 0, 100% 20%, 100% 80%, 20% 100%, 0 50%);
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.1);
+    z-index: 2;
+    transition: all 0.6s ease-in;
+    &:hover {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 99%, 0 47%);
+    }
+
+    img {
+      // max-height: 400px;
+      height: 400px;
+      object-fit: cover;
+      width: 100%;
+      z-index: 2;
+    }
+  }
+}
+.sezioneCommenti {
+  max-height: 600px;
+  overflow-y: scroll;
+  width: 95%;
+  animation: fadein 0.8s ease-in;
+  background-color: rgb(255, 255, 255, 0.9);
+  padding: 20px 5px;
+
+  button {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
+    margin: 4px 12px;
+    padding: 4px 8px;
+    background-color: rgb(148, 39, 126);
+    color: #f0f8ff;
+    &:hover {
+      color: #87cefa;
+      box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.75);
+    }
+  }
+
+  .commentoattractionPage {
+    margin: 8px;
+    padding: 20px 25px;
+    background: rgb(197, 197, 197, 0.9);
+  }
+}
+@keyframes fadein {
+  0% {
+    z-index: -1;
+    opacity: 0;
+    transform: translate(0px, -200px);
+  }
+
+  70% {
+    transform: translate(0px, 0px);
+  }
+  100% {
+    opacity: 1;
+  }
+}

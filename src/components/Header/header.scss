@@ -1,0 +1,48 @@
+.myNavbar {
+  box-shadow: 0px 8px 10px 4px rgba(0, 0, 0, 0.75);
+  background-color: rgb(176, 33, 94, 0.5);
+  border-radius: 20px;
+  margin: 20px 20px;
+  position: sticky;
+  top: 5px;
+  z-index: 10;
+
+  .navbar-brand {
+    color: #f0f8ff;
+    font-family: "Monoton", cursive;
+    font-size: 40px;
+
+    text-shadow: 1px 1px 1px #2140b0, 2px 2px 2px rgb(173, 250, 135);
+
+    @media (max-width: 1200px) {
+      font-size: 30px;
+    }
+    @media (max-width: 500px) {
+      font-size: 20px;
+      white-space: pre-line;
+    }
+  }
+  .nav-link {
+    color: #f0f8ff;
+    &:hover {
+      color: #87cefa;
+      font-weight: 500;
+    }
+  }
+}
+.helloUser {
+  color: #f0f8ff;
+  user-select: none;
+  display: block;
+  padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+  font-size: var(--bs-nav-link-font-size);
+  font-weight: var(--bs-nav-link-font-weight);
+  color: var(--bs-nav-link-color);
+  text-decoration: none;
+  margin: 0;
+}
+.logout {
+  user-select: none;
+  cursor: pointer;
+  margin: 0;
+}

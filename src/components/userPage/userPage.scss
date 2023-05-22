@@ -1,0 +1,122 @@
+.profileContainer {
+  padding: 40px 0;
+  background-color: rgb(240, 236, 236, 0.5);
+  .profilePic {
+    position: relative;
+    width: 100%;
+    padding: 10px;
+
+    img {
+      max-height: 250px;
+
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+      box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    }
+    .updateFotoButton {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      border: none;
+      background: transparent;
+      font-size: 2rem;
+      color: beige;
+      cursor: pointer;
+      &:hover {
+        color: lightblue;
+        font-size: 2.2rem;
+      }
+    }
+  }
+  .commentContainer {
+    margin: 20px 10px;
+    padding: 30px 10px;
+    max-height: 500px;
+    overflow-y: scroll;
+    background-color: rgb(244, 244, 244, 0.6);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    .singleCommentContainer {
+      background-color: rgb(244, 244, 244, 0.9);
+      margin: 20px 0 !important;
+      padding: 10px 20px;
+      margin: 0;
+
+      width: 100%;
+      border-left: 5px ridge #94277e;
+      .commentBody {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .elementCommented {
+        .imgCommento {
+          width: 100%;
+          height: 150px;
+          object-fit: cover;
+          object-position: center;
+        }
+        .linkToEvent {
+          padding: 0;
+          margin: 0;
+          color: rgb(37, 132, 164);
+          cursor: pointer;
+          user-select: none;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+.creaEvento {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
+  margin: auto;
+  padding: 4px 8px;
+  background-color: transparent;
+  color: rgb(148, 39, 126);
+  &:hover {
+    color: #3e5d71;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.75);
+  }
+}
+.userEventCard {
+  .eventCard {
+    margin: 0;
+  }
+  .containerBtnGestioneEv {
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    @media (max-width: 350px) {
+      flex-direction: column;
+    }
+
+    button {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
+      margin: auto;
+      padding: 4px 8px;
+      // background-color: rgb(148, 39, 126);
+      background-color: transparent;
+
+      // color: #f0f8ff;
+      color: rgb(148, 39, 126);
+      &:hover {
+        color: #3e5d71;
+        box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.75);
+      }
+      &:nth-child(3) {
+        // background-color: rgb(157, 9, 9);
+        background-color: transparent;
+        color: rgb(157, 9, 9);
+      }
+    }
+  }
+}

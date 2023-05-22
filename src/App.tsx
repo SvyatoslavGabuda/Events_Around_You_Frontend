@@ -1,57 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import "./App.scss";
+import Home from "./components/home/Home";
+import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
+import ReggistrationForm from "./components/Registration/ReggistrationForm";
+import { AuthProvider } from "./auth/contex/AuthProvider";
+import LoginForm from "./components/login/LoginForm";
+import Missing from "./components/otherpages/Missing";
+import Unauthorized from "./components/otherpages/Unauthorized";
+import AdminPage from "./components/adminspage/AdminPage";
+import UserPage from "./components/userPage/UserPage";
+import RequireAuth from "./auth/RequiredAuth";
+import EventsPage from "./components/eventspage/EventsPage";
+import ResturantPage from "./components/resturantsPage/ResturantPage";
+import HotelPage from "./components/hotelsPage/HotelPage";
+import AttractionPage from "./components/attractionPage/AttractionPage";
+import LoginModal from "./components/login/LoginModal";
+import EventsDetailsPage from "./components/eventspage/EventsDetailsPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <AuthProvider>
+          <Header />
+          <LoginModal />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/events/:id" element={<EventsDetailsPage />} />
+            <Route path="/ristoranti" element={<ResturantPage />} />
+            <Route path="/hotels" element={<HotelPage />} />
+            <Route path="/attrazioni" element={<AttractionPage />} />
+
+            <Route path="/register" element={<ReggistrationForm />} />
+            <Route path="/login" element={<LoginForm inModal={false} />} />
+            <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN"]} />}>
+              <Route path="/admin" element={<AdminPage />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN", "ROLE_USER"]} />}>
+              <Route path="/user" element={<UserPage />} />
+            </Route>
+            <Route path="*" element={<Missing />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+          </Routes>
+          <Footer />
+        </AuthProvider>
+      </BrowserRouter>
+    </>
   );
 }
 
