@@ -20,7 +20,7 @@ const EventsDetailsPage = () => {
   return (
     <>
       <Container>
-        {ev ? (
+        {ev?.creatore ? (
           <Row>
             <Col>
               <img src={ev?.urlImage} alt="immagine evento" />

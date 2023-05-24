@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{2,24}$/;
 const ReggistrationForm = () => {
+  const navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
   const [email, setEmail] = useState("");
@@ -62,6 +64,7 @@ const ReggistrationForm = () => {
       });
       if (response.ok) {
         console.log("tutto apposto");
+        navigate("/login");
       } else {
         console.log("qualcosa è andato storoto");
       }

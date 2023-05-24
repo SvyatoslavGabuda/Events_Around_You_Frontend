@@ -19,6 +19,7 @@ import { getEventByID } from "../../../app/slices/eventsSlices/eventByIdSlice";
 import { TbInfoSquareRounded } from "react-icons/tb";
 import { GoCommentDiscussion, GoReport } from "react-icons/go";
 import { BiCommentAdd } from "react-icons/bi";
+import { sponsoredEvFetch } from "../../../app/slices/eventsSlices/sponsoredEvents";
 interface evProps {
   ev: Ievento;
 }
@@ -98,9 +99,8 @@ const EventPageCard = ({ ev }: evProps) => {
                 <button
                   onClick={() => {
                     navigate("/events/" + ev.idLuogo);
-                    if (auth.accessToken) {
-                      dispatch(getEventByID({ token: auth.accessToken, id_eve: ev.idLuogo }));
-                    }
+
+                    dispatch(getEventByID({ id_eve: ev.idLuogo }));
                   }}
                 >
                   <TbInfoSquareRounded style={{ fontSize: "1.3rem" }} />
@@ -114,7 +114,6 @@ const EventPageCard = ({ ev }: evProps) => {
                 </button>
                 <button
                   onClick={(e) => {
-                    e.preventDefault();
                     if (auth.accessToken) {
                       dispatch(
                         likeEvFetch({

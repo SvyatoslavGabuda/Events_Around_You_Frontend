@@ -6,22 +6,24 @@ import storage from "redux-persist/lib/storage";
 import userProfileSlice from "./slices/userProfileSlice";
 import loginModalSlice from "./slices/loginModalSlice";
 import sponsoredEvents from "./slices/eventsSlices/sponsoredEvents";
-import eventSearchByCitySlice from "./slices/eventsSlices/eventSearchByCitySlice";
-import eventSearchByCityAndDateSlice from "./slices/eventsSlices/eventSearchByCityAndDateSlice";
+
 import eventLikeSlice from "./slices/eventsSlices/eventLikeSlice";
 import eventByIdSlice from "./slices/eventsSlices/eventByIdSlice";
 import eventSearchSlice from "./slices/eventsSlices/eventSearchSlice";
+import sponsoredEventsByCitta from "./slices/eventsSlices/sponsoredEventsByCitta";
+import userProfileByIdSlice from "./slices/userProfileByIdSlice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: [],
+  whitelist: [""],
   transforms: [encryptTransform({ secretKey: process.env.REACT_APP_SECRET_KEY || "nonandrà" })],
 };
 const rootReducer = combineReducers({
   userProfile: userProfileSlice,
   loginModal: loginModalSlice,
   sponsoredEv: sponsoredEvents,
-
+  sponsoredEvByCitta: sponsoredEventsByCitta,
+  userProfileById: userProfileByIdSlice,
   likeDaUtenu: eventLikeSlice,
   eventByID: eventByIdSlice,
   eventSearch: eventSearchSlice,

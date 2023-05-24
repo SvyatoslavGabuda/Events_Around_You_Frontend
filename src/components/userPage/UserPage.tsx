@@ -1,6 +1,6 @@
 import { Col, Container, Row } from "react-bootstrap";
 import "./userPage.scss";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 
 import UserPageSingleComment from "./userPageComponents/UserPageSingleComment";
 import UploadUserProfileImage from "./userPageComponents/UploadUserProfileImage";
@@ -10,14 +10,46 @@ import CreaEventoModal from "./userPageComponents/CreaEventoModal";
 import EventCardUser from "./userPageComponents/EventCardUser";
 import { IuserProfile } from "../../interfaces/luoghiDiInteresseInt";
 import { FaUserSecret, FaUserGraduate, FaUser } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { userProfileFetch } from "../../app/slices/userProfileSlice";
+import useAuth from "../../auth/hooks/useAuth";
+import { userProfileByIDFetch } from "../../app/slices/userProfileByIdSlice";
 
 const UserPage = () => {
-  const userProfile: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
+  const param = useParams();
+  const { auth } = useAuth();
+  const dispatch = useAppDispatch();
+  const [userProfile, setUserProfile] = useState<IuserProfile>({} as IuserProfile);
+  const userProfilemine: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
+  const userProfile2: IuserProfile = useAppSelector((state) => state.userProfileById.userLogged);
   const [show, setShow] = useState(false);
   const [showMEv, setShowMEv] = useState(false);
 
   const handleShow = () => setShow(true);
   const handleShowEv = () => setShowMEv(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    console.log(param?.id);
+    if (param.id === undefined) {
+      setUserProfile(userProfilemine);
+    } else {
+      if (auth.accessToken) {
+        dispatch(userProfileByIDFetch({ token: auth.accessToken, id: parseInt(param.id) })).then(
+          () => {
+            setIsLoading(false);
+          }
+        );
+      }
+    }
+  }, [param]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setUserProfile(userProfile2);
+    }
+  }, [isLoading]);
   return (
     <>
       {
@@ -26,7 +58,7 @@ const UserPage = () => {
             <Col xs={12} sm={6} className="d-flex justify-content-center ">
               <div className="profilePic ">
                 {userProfile?.urlImmagineProfilo !== null ? (
-                  <img src={userProfile.urlImmagineProfilo} alt="profile pic" />
+                  <img src={userProfile?.urlImmagineProfilo} alt="profile pic" />
                 ) : (
                   <img
                     src="https://placehold.co/600x400"
@@ -34,9 +66,13 @@ const UserPage = () => {
                     className="profilePic"
                   />
                 )}
-                <button className="updateFotoButton" onClick={handleShow}>
-                  <BsFillCameraFill />
-                </button>
+                {auth.username === userProfile.username ? (
+                  <button className="updateFotoButton" onClick={handleShow}>
+                    <BsFillCameraFill />
+                  </button>
+                ) : (
+                  <></>
+                )}
               </div>
 
               <UploadUserProfileImage show={show} setShow={setShow} />
@@ -63,9 +99,9 @@ const UserPage = () => {
             <Col xs={12} sm={2} className="d-flex flex-column justify-content-center mx-2 mx-sm-0">
               <p>
                 Your Role:{" "}
-                {userProfile.roles.find((role) => role.roleName === "ROLE_ADMIN") ? (
+                {userProfile?.roles?.find((role) => role.roleName === "ROLE_ADMIN") ? (
                   <FaUserSecret />
-                ) : userProfile.roles.find((role) => role.roleName === "ROLE_EVENTCREATOR") ? (
+                ) : userProfile?.roles?.find((role) => role.roleName === "ROLE_EVENTCREATOR") ? (
                   <FaUserGraduate />
                 ) : (
                   <FaUser />
@@ -88,12 +124,16 @@ const UserPage = () => {
           <Row className="m-1 my-5">
             <Col xs={12} className="d-flex justify-content-between py-2">
               <h4>I tuoi eventi creati</h4>
-              <p>
-                <button className="creaEvento" onClick={handleShowEv}>
-                  Crea Evento
-                </button>
-                <CreaEventoModal show={showMEv} setShow={setShowMEv} />
-              </p>
+              {auth.username === userProfile.username ? (
+                <p>
+                  <button className="creaEvento" onClick={handleShowEv}>
+                    Crea Evento
+                  </button>
+                  <CreaEventoModal show={showMEv} setShow={setShowMEv} />
+                </p>
+              ) : (
+                <></>
+              )}
             </Col>
             <Col xs={12}>
               <Row className="row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 m-0 justify-content-center w-100">

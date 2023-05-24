@@ -44,6 +44,9 @@ function App() {
             <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN", "ROLE_USER"]} />}>
               <Route path="/user" element={<UserPage />} />
             </Route>
+            <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN"]} />}>
+              <Route path="/user/:id" element={<UserPage />} />
+            </Route>
             <Route path="*" element={<Missing />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
           </Routes>

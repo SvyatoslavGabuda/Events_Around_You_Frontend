@@ -9,33 +9,23 @@ const initialState: IstateEventByID = {
   status: "idle",
 };
 interface params {
-  token: string;
   id_eve: number;
 }
-const url = "http://localhost:8081/events/";
-export const getEventByID = createAsyncThunk(
-  "fetch sponsored ev",
-  async ({ token, id_eve }: params) => {
-    try {
-      const response = await fetch(url + id_eve, {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + token,
-          "content-type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        return data;
-      } else {
-        console.log("non ha funzionato");
-      }
-    } catch (error) {
-      console.log(error);
+const url = "http://localhost:8081/events/info/";
+export const getEventByID = createAsyncThunk("fetch by id", async ({ id_eve }: params) => {
+  try {
+    const response = await fetch(url + id_eve);
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } else {
+      console.log("non ha funzionato");
     }
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
 const EvByID = createSlice({
   name: "save",

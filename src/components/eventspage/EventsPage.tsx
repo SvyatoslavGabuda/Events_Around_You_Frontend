@@ -23,14 +23,12 @@ const EventsPage = () => {
   useEffect(() => {
     if (status === "idle") {
       console.log("use 2");
+
       setEventi(ev);
     }
-  }, [status]);
+  }, [ev]);
   useEffect(() => {
     setEventiTrovati(evSerachGeneral.content);
-    console.log("citta");
-    if (evSerachGeneral?.content?.length > 0) {
-    }
   }, [evSerachGeneral]);
 
   return (

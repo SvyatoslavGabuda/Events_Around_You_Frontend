@@ -12,7 +12,7 @@ interface params {
 }
 const url = "http://localhost:8081/events/like/";
 export const likeEvFetch = createAsyncThunk(
-  "fetch sponsored ev",
+  "fetch like",
   async ({ token, id_user, id_eve }: params) => {
     try {
       const response = await fetch(url + id_user + "/" + id_eve, {

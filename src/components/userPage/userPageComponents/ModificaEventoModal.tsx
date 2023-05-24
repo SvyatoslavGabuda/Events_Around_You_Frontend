@@ -1,18 +1,17 @@
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+// import Button from "react-bootstrap/Button";
+// import Modal from "react-bootstrap/Modal";
+// import Form from "react-bootstrap/Form";
+import { Row, Col, Form, Modal, Button } from "react-bootstrap";
 
-import Form from "react-bootstrap/Form";
-
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { useEffect, useState } from "react";
-import useAuth from "../../../auth/hooks/useAuth";
-import { userProfileFetch } from "../../../app/slices/userProfileSlice";
 import { Ievento, IuserProfile } from "../../../interfaces/luoghiDiInteresseInt";
-import { Col, Row } from "react-bootstrap";
-
-interface modalProps {
+import { useState } from "react";
+import useAuth from "../../../auth/hooks/useAuth";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { userProfileFetch } from "../../../app/slices/userProfileSlice";
+interface mododalProps {
   show: boolean;
-  setShow: any;
+  setShow: (show: boolean) => void;
+  ev: Ievento;
 }
 interface FormData {
   file: File | null;
@@ -37,36 +36,34 @@ interface IEventoDto {
   numMaxPartecipants: number;
   creatore: number;
 }
-const CreaEventoModal = ({ show, setShow }: modalProps) => {
+const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
   const { auth } = useAuth();
   const dispatch = useAppDispatch();
   const userProfile: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
-  // Ho dato dei valori di defaut per una creazione più veloce durante il testing
-  const [lat, setLat] = useState<number>(48.1232);
-  const [lng, setLng] = useState<number>(48.1232);
-  const [title, setTitle] = useState<string>("My Event");
-  const [subTitle, setSubTitle] = useState<string>("My Event");
-  const [description, setDescription] = useState<string>("Desciptio...");
-  const [formData, setFormData] = useState<FormData>({ file: null });
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [endDate, setEndDate] = useState<Date>(new Date());
-  const [duration, setDuration] = useState<number>(200);
-  const [numMaxPartecipants, setNumMaxPartecipants] = useState<number>(50);
+  //dati per la modidica dei dati principali
+  const [lat, setLat] = useState<number>(ev.lat);
+  const [lng, setLng] = useState<number>(ev.lng);
+  const [title, setTitle] = useState<string>(ev.title);
+  const [subTitle, setSubTitle] = useState<string>(ev.subTitle);
+  const [description, setDescription] = useState<string>(ev.description);
+  const [startDate, setStartDate] = useState<Date>(new Date(ev.startDate));
+  const [endDate, setEndDate] = useState<Date>(new Date(ev.endDate));
+  const [duration, setDuration] = useState<number>(ev.duration);
+  const [numMaxPartecipants, setNumMaxPartecipants] = useState<number>(ev.numMaxPartecipants);
   //dati per l'indirizzo del evento
-  const [via, setVia] = useState<string>("via Roma");
-  const [civico, setCivico] = useState<number>(20);
-  const [citta, setCitta] = useState<string>("Milano");
-  const [cap, setCap] = useState<number>(20000);
-  const [provincia, setProvincia] = useState<string>("Lombardia");
-  //controllo di avvenuto salvataggio
-  const [eventoSalvato, setEventoSalvato] = useState<Ievento | null>(null);
-
-  const handleClose = () => setShow(false);
-  //apertura e chiusura parti del modale
-  const [show1, setShow1] = useState(true);
+  const [via, setVia] = useState<string>(ev.indirizzzo.via);
+  const [civico, setCivico] = useState<number>(ev.indirizzzo.civico);
+  const [citta, setCitta] = useState<string>(ev.indirizzzo.citta);
+  const [cap, setCap] = useState<number>(ev.indirizzzo.cap);
+  const [provincia, setProvincia] = useState<string>(ev.indirizzzo.provincia);
+  // dati per l'immagine
+  const [formData, setFormData] = useState<FormData>({ file: null });
+  const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
   const [show3, setShow3] = useState(false);
-
+  const handleClose = () => {
+    setShow(false);
+  };
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFormData({ file: event.target.files[0] });
@@ -89,8 +86,8 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
     };
 
     try {
-      const response = await fetch("http://localhost:8081/events", {
-        method: "POST",
+      const response = await fetch("http://localhost:8081/events/generali/" + ev.idLuogo, {
+        method: "PUT",
         body: JSON.stringify(EventoDto),
         headers: {
           "content-type": "application/json",
@@ -100,9 +97,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        setEventoSalvato(data);
-        setShow1(false);
-        setShow2(true);
+        console.log("evento modificato con sucesso");
       } else {
         console.log("errore");
       }
@@ -121,7 +116,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
       provincia: provincia,
     };
     try {
-      const response = await fetch("http://localhost:8081/events/" + eventoSalvato?.idLuogo, {
+      const response = await fetch("http://localhost:8081/events/" + ev.idLuogo, {
         method: "PUT",
         body: JSON.stringify(Indirizzo),
         headers: {
@@ -131,6 +126,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log("indirizzo modificato");
       } else {
         console.log("errore");
       }
@@ -145,7 +141,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
     formDataToSend.append("file", formData.file as Blob);
     console.log("Bearer " + auth.accessToken);
     try {
-      const response = await fetch("http://localhost:8081/events/img/" + eventoSalvato?.idLuogo, {
+      const response = await fetch("http://localhost:8081/events/img/" + ev.idLuogo, {
         method: "PUT",
         body: formDataToSend,
         headers: {
@@ -154,9 +150,6 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
       });
       if (response.ok) {
         console.log("immagine caricata");
-        handleClose();
-        setShow1(true);
-        setShow3(false);
         if (auth.accessToken) {
           dispatch(userProfileFetch({ username: userProfile.username, token: auth.accessToken }));
         }
@@ -168,13 +161,44 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
     } finally {
     }
   };
-
   return (
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Crea il tuo Evento!</Modal.Title>
+          <Modal.Title>Stai modificando: {ev.title}</Modal.Title>
         </Modal.Header>
+        <Modal.Body>
+          <div>
+            <h5>cosa vuoi modificare?</h5>
+            <button
+              onClick={() => {
+                setShow1(true);
+                setShow2(false);
+                setShow3(false);
+              }}
+            >
+              Informazioni generali
+            </button>
+            <button
+              onClick={() => {
+                setShow1(false);
+                setShow2(true);
+                setShow3(false);
+              }}
+            >
+              indirizzo
+            </button>
+            <button
+              onClick={() => {
+                setShow1(false);
+                setShow2(false);
+                setShow3(true);
+              }}
+            >
+              immagine
+            </button>
+          </div>
+        </Modal.Body>
         <Modal.Body>
           <Form>
             {show1 ? (
@@ -238,6 +262,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                       <Form.Control
                         type="datetime-local"
                         placeholder="Enter email"
+                        value={startDate.toISOString().slice(0, -1)}
                         onChange={(e) => setStartDate(new Date(e.target.value))}
                       />
                     </Form.Group>
@@ -248,6 +273,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                       <Form.Control
                         type="datetime-local"
                         placeholder="Enter email"
+                        value={endDate.toISOString().slice(0, -1)}
                         onChange={(e) => setEndDate(new Date(e.target.value))}
                       />
                     </Form.Group>
@@ -284,15 +310,15 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                     handleSubmit1(e);
                   }}
                 >
-                  next
+                  Salva
                 </Button>
               </div>
             ) : (
               <></>
             )}
-            {show2 && eventoSalvato?.title ? (
+            {show2 && ev?.title ? (
               <div>
-                <p>{eventoSalvato?.title}</p>
+                <p>{ev.title}</p>
                 <Form.Group className="mb-3">
                   <Form.Label>Cap</Form.Label>
                   <Form.Control
@@ -343,11 +369,9 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   type="button"
                   onClick={(e) => {
                     handleSubmit2(e);
-                    setShow2(false);
-                    setShow3(true);
                   }}
                 >
-                  next
+                  salva
                 </Button>
               </div>
             ) : (
@@ -366,7 +390,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                     handleSubmit3(e);
                   }}
                 >
-                  finish
+                  salva
                 </Button>
               </div>
             ) : (
@@ -375,10 +399,12 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <p>Pagina {show1 ? "1/3" : show2 ? "2/3" : "3/3"}</p>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
   );
 };
-export default CreaEventoModal;
+export default ModificaEventoModal;

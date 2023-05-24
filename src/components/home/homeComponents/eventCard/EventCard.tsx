@@ -16,7 +16,7 @@ const EventCard = ({ ev }: evProps) => {
   const navigate = useNavigate();
   return (
     <>
-      <Col>
+      <Col className="">
         <div
           className="eventCard"
           style={{
@@ -45,9 +45,8 @@ const EventCard = ({ ev }: evProps) => {
               className="eventCardButton"
               onClick={() => {
                 navigate("/events/" + ev.idLuogo);
-                if (auth.accessToken) {
-                  dispatch(getEventByID({ token: auth.accessToken, id_eve: ev.idLuogo }));
-                }
+
+                dispatch(getEventByID({ id_eve: ev.idLuogo }));
               }}
             >
               Info

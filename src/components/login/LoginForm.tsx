@@ -64,9 +64,14 @@ const LoginForm = ({ inModal }: logingProps) => {
         } else {
           dispatch(hideLoginM());
         }
+      } else {
+        const errorData = await response.json();
+        const message = errorData.message;
+        console.error(message);
+        setErrMsg(message);
       }
     } catch (error) {
-      console.log(error);
+      setErrMsg("Si è verificato un errore durante la richiesta di login.");
     }
   };
   return (
@@ -75,6 +80,7 @@ const LoginForm = ({ inModal }: logingProps) => {
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} md={8} lg={6} className="py-5">
+            {errMsg !== "" && <p>{errMsg}</p>}
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>UserName</Form.Label>

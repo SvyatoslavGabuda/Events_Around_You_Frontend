@@ -6,6 +6,8 @@ import { RiShieldStarLine } from "react-icons/ri";
 import { useAppDispatch } from "../../../app/hooks";
 import useAuth from "../../../auth/hooks/useAuth";
 import { getEventByID } from "../../../app/slices/eventsSlices/eventByIdSlice";
+import { useState } from "react";
+import ModificaEventoModal from "./ModificaEventoModal";
 interface evProps {
   ev: Ievento;
 }
@@ -13,6 +15,7 @@ const EventCardUser = ({ ev }: evProps) => {
   const { auth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [show, setShow] = useState(false);
   const eliminaEvento = async (id: string) => {
     try {
       const response = await fetch("http://localhost:8081/events/" + id, {
@@ -76,9 +79,8 @@ const EventCardUser = ({ ev }: evProps) => {
               className="eventCardButton"
               onClick={() => {
                 navigate("/events/" + ev.idLuogo);
-                if (auth.accessToken) {
-                  dispatch(getEventByID({ token: auth.accessToken, id_eve: ev.idLuogo }));
-                }
+
+                dispatch(getEventByID({ id_eve: ev.idLuogo }));
               }}
             >
               Info
@@ -93,7 +95,14 @@ const EventCardUser = ({ ev }: evProps) => {
           >
             sponsorizza
           </button>
-          <button>modifica</button>
+          <button
+            onClick={() => {
+              setShow(true);
+            }}
+          >
+            modifica
+          </button>
+          <ModificaEventoModal show={show} setShow={setShow} ev={ev} />
           <button
             onClick={() => {
               eliminaEvento("" + ev.idLuogo);

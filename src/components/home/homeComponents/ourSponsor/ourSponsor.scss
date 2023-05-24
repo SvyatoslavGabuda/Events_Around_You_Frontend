@@ -1,10 +1,13 @@
 .ourSponsor {
   padding: 40px 0;
+
   .containerSponsor {
     height: 800px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    background: rgb(255, 255, 255, 0.5);
+
     @media (max-width: 1200px) {
       height: 650px;
     }
@@ -24,6 +27,7 @@
         height: 100%;
         clip-path: polygon(0 0, 100% 0%, 50% 100%, 0% 100%);
         transition: 1s linear all;
+        transform: scale(1.1);
         &:hover {
           clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
         }
@@ -41,11 +45,13 @@
       grid-column-end: 3;
       grid-row-start: 4;
       grid-row-end: 6;
+
       filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.75));
       .trapezio2 {
         height: 100%;
         clip-path: polygon(0 0, 50% 0, 100% 100%, 0% 100%);
         transition: 1s linear all;
+        transform: scale(1.1);
         &:hover {
           clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
         }
@@ -68,6 +74,7 @@
         height: 100%;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%);
         transition: 1s linear all;
+        transform: scale(1.1);
         &:hover {
           clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
         }
@@ -90,6 +97,7 @@
         height: 100%;
         clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%);
         transition: 1s linear all;
+        transform: scale(1.1);
         &:hover {
           clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
         }

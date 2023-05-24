@@ -7,9 +7,149 @@
   padding: 20px 20px;
   margin: 20px 0;
   box-shadow: 5px 5px 9px 2px rgba(0, 0, 0, 0.75);
+  .form-floating {
+    .form-control {
+      color: #f0f8ff;
+      background-color: rgb(148, 39, 126);
+      box-shadow: 6px 6px 9px 4px rgba(0, 0, 0, 0.75);
+      border: none;
+    }
+    label {
+      margin-left: 5px;
+      color: #f0f8ff;
+    }
+
+    // box-shadow: 6px 6px 9px 4px rgba(0, 0, 0, 0.75);
+    // border: none;
+  }
 }
 .homeTitles {
   font-family: "Anton", sans-serif;
   font-size: 45px;
   text-shadow: 1px 1px 1px #b0215e, 2px 2px 2px rgb(173, 250, 135);
+}
+.paginationBtn {
+  border: none;
+  background: transparent;
+}
+.paginationBtn1 {
+  font-size: 1.4rem;
+  border-top: 1px solid #b0215e;
+  border-right: 1px solid #b0215e;
+  border-left: 4px solid #b0215e;
+  border-bottom: 4px solid #b0215e;
+  background: transparent;
+  border-radius: 10px 0px 20px 0px;
+  transition: all 0.5s ease-out;
+  box-shadow: rgba(176, 33, 94, 0.4) -5px 5px, rgba(176, 33, 94, 0.3) -10px 10px,
+    rgba(176, 33, 94, 0.2) -15px 15px, rgba(176, 33, 94, 0.1) -20px 20px,
+    rgba(176, 33, 94, 0.05) -25px 25px;
+  &:disabled {
+    border-top: 1px solid rgb(148, 148, 148);
+    border-right: 1px solid rgb(148, 148, 148);
+    border-left: 4px solid rgb(148, 148, 148);
+    border-bottom: 4px solid rgb(148, 148, 148);
+    box-shadow: rgba(148, 148, 148, 0.4) -2px 2px, rgba(148, 148, 148, 0.3) -5px 5px,
+      rgba(148, 148, 148, 0.2) -8px 8px, rgba(148, 148, 148, 0.1) -10px 10px,
+      rgba(148, 148, 148, 0.05) -12px 12px;
+  }
+  &:not(:disabled):hover {
+    color: #b0215e;
+
+    border-left: 1px solid #b0215e;
+    border-bottom: 1px solid #b0215e;
+    box-shadow: rgba(176, 33, 94, 0.4) -2px 2px, rgba(176, 33, 94, 0.3) -5px 5px,
+      rgba(176, 33, 94, 0.2) -8px 8px, rgba(176, 33, 94, 0.1) -10px 10px,
+      rgba(176, 33, 94, 0.05) -12px 12px;
+  }
+}
+.paginationBtn2 {
+  font-size: 1.4rem;
+  border-top: 1px solid #b0215e;
+  border-right: 4px solid #b0215e;
+  border-left: 1px solid #b0215e;
+  border-bottom: 4px solid #b0215e;
+
+  background: transparent;
+  background-color: rgba(255, 255, 255, 0.3);
+
+  border-radius: 0px 10px 0px 20px;
+  transition: all 0.5s ease-out;
+  box-shadow: rgba(176, 33, 94, 0.4) 5px 5px, rgba(176, 33, 94, 0.3) 10px 10px,
+    rgba(176, 33, 94, 0.2) 15px 15px, rgba(176, 33, 94, 0.1) 20px 20px,
+    rgba(176, 33, 94, 0.05) 25px 25px;
+  &:disabled {
+    border-top: 1px solid rgb(148, 148, 148);
+    border-right: 4px solid #949494;
+    border-left: 1px solid #949494;
+    border-bottom: 4px solid #949494;
+    box-shadow: rgba(148, 148, 148, 0.4) 5px 5px, rgba(148, 148, 148, 0.3) 10px 10px,
+      rgba(148, 148, 148, 0.2) 15px 15px, rgba(148, 148, 148, 0.1) 20px 20px,
+      rgba(148, 148, 148, 0.05) 25px 25px;
+  }
+  &:not(:disabled):hover {
+    // background: rgba(255, 255, 255, 0.9);
+    color: #b0215e;
+    border-right: 1px solid #b0215e;
+    border-bottom: 1px solid rgb(176, 33, 94);
+    box-shadow: rgba(176, 33, 94, 0.4) 2px 2px, rgba(176, 33, 94, 0.3) 5px 5px,
+      rgba(176, 33, 94, 0.2) 8px 8px, rgba(176, 33, 94, 0.1) 10px 10px,
+      rgba(176, 33, 94, 0.05) 12px 12px;
+  }
+}
+.nextBtn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 200;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+
+  background-color: rgba(176, 33, 94, 0.3);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  &:disabled {
+    background: rgba(178, 178, 178, 0.5);
+  }
+  svg {
+    transform: scaleY(3);
+    @media (max-width: 992px) {
+      transform: scaleY(1);
+      transform: scaleX(2);
+    }
+  }
+  @media (max-width: 992px) {
+    height: 30px;
+    bottom: 0;
+    top: auto;
+    width: 50%;
+  }
+}
+.prevBtn {
+  position: absolute;
+
+  z-index: 200;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.5);
+  background-color: rgba(176, 33, 94, 0.3);
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+  &:disabled {
+    background: rgba(178, 178, 178, 0.5);
+  }
+
+  svg {
+    transform: scaleY(3);
+    @media (max-width: 992px) {
+      transform: scaleY(1);
+      transform: scaleX(2);
+    }
+  }
+  @media (max-width: 992px) {
+    height: 30px;
+    bottom: 0;
+    top: auto;
+    width: 50%;
+  }
 }
