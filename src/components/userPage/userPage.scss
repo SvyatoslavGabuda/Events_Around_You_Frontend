@@ -1,6 +1,13 @@
 .profileContainer {
   padding: 40px 0;
   background-color: rgb(240, 236, 236, 0.5);
+  .userRole {
+    text-align: center;
+    svg {
+      width: 80px;
+      height: 80px;
+    }
+  }
   .profilePic {
     position: relative;
     width: 100%;
@@ -82,6 +89,26 @@
   }
 }
 .userEventCard {
+  position: relative;
+  .eventoBloccato {
+    position: absolute;
+    top: 0;
+    height: 96.5%;
+    width: calc(100% - 2 * (var(--bs-gutter-x) * 0.5));
+    padding-right: calc(var(--bs-gutter-x) * 0.5);
+    padding-left: calc(var(--bs-gutter-x) * 0.5);
+    background: rgb(149, 149, 149, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+      color: red;
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 800;
+      background-color: rgb(71, 71, 71);
+    }
+  }
   .eventCard {
     margin: 0;
   }
@@ -116,6 +143,7 @@
         // background-color: rgb(157, 9, 9);
         background-color: transparent;
         color: rgb(157, 9, 9);
+        z-index: 5;
       }
     }
   }

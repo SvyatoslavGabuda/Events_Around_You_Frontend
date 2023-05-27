@@ -20,6 +20,7 @@ import HotelPage from "./components/hotelsPage/HotelPage";
 import AttractionPage from "./components/attractionPage/AttractionPage";
 import LoginModal from "./components/login/LoginModal";
 import EventsDetailsPage from "./components/eventspage/EventsDetailsPage";
+import EventsMapPage from "./components/eventspage/EventsMapPage";
 
 function App() {
   return (
@@ -43,6 +44,9 @@ function App() {
             </Route>
             <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN", "ROLE_USER"]} />}>
               <Route path="/user" element={<UserPage />} />
+            </Route>
+            <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN", "ROLE_USER"]} />}>
+              <Route path="/events/map" element={<EventsMapPage />} />
             </Route>
             <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN"]} />}>
               <Route path="/user/:id" element={<UserPage />} />

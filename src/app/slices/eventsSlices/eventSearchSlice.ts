@@ -1,13 +1,29 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Ievento } from "../../../interfaces/luoghiDiInteresseInt";
-
+export interface inputsValue {
+  title: string;
+  place: string;
+  startDate: string;
+  endDate: string;
+  page: number;
+  size: number;
+}
 interface searchEv {
   status: "idle" | "loading" | "failed";
   events: Ievento[];
+  inputsValue: inputsValue;
 }
 const initialState: searchEv = {
   status: "idle",
   events: [],
+  inputsValue: {
+    title: "",
+    place: "",
+    startDate: "new Date()",
+    endDate: "",
+    page: 0,
+    size: 5,
+  },
 };
 export interface params {
   title: string;
@@ -17,13 +33,15 @@ export interface params {
   city: string;
   page: number;
   size: number;
+  sort: string;
+  dir: "ASC" | "DESC";
 }
 const url = "http://localhost:8081";
 let newUrl = "";
 
 export const eventSearch = createAsyncThunk(
   "fetch ev serch",
-  async ({ page, size, city, token, startDate, endDate, title }: params) => {
+  async ({ page, size, city, token, startDate, endDate, title, sort, dir }: params) => {
     try {
       if (city !== "" && title !== "" && startDate !== "" && endDate !== "") {
         console.log("caso 1");
@@ -55,12 +73,15 @@ export const eventSearch = createAsyncThunk(
         newUrl = url + "/events/search/citta?cittaProvincia=" + city;
       }
       // console.log(page, size, city, token);
-      const response = await fetch(newUrl + "&page=" + page + "&size=" + size, {
-        headers: {
-          Authorization: "Bearer " + token,
-          "content-type": "application/json",
-        },
-      });
+      const response = await fetch(
+        newUrl + "&page=" + page + "&size=" + size + "&sort=" + sort + "," + dir,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+            "content-type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
         const data = await response.json();
         console.log(data);
@@ -76,9 +97,13 @@ export const eventSearch = createAsyncThunk(
 );
 
 const eventSearchS = createSlice({
-  name: "save",
+  name: "eventS",
   initialState,
-  reducers: {},
+  reducers: {
+    saveInputsValues(state, action: PayloadAction<inputsValue>) {
+      state.inputsValue = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(eventSearch.pending, (state) => {
@@ -93,5 +118,6 @@ const eventSearchS = createSlice({
       });
   },
 });
+export const { saveInputsValues } = eventSearchS.actions;
 
 export default eventSearchS.reducer;

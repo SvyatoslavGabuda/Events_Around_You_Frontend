@@ -1,0 +1,127 @@
+.dailsPage {
+  background: rgb(255, 255, 255, 0.5);
+  margin: 40px 0px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px,
+    rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px,
+    rgba(0, 0, 0, 0.09) 0px 32px 16px;
+  .dailsPageImg {
+    object-fit: contain;
+    object-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      padding: 5px;
+      width: 100%;
+    }
+  }
+  .dailsPageText {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    div:nth-child(2) > p > time > span {
+      color: #94277e;
+      font-size: 1.2rem;
+      font-weight: 500;
+      font-family: monospace;
+      box-shadow: 1px 1px 2px black;
+      padding: 2px 4px;
+    }
+    div:nth-child(4) {
+      p:nth-child(1) {
+        span {
+          color: #94277e;
+          font-size: 1.2rem;
+          font-weight: 500;
+
+          box-shadow: 1px 1px 2px black;
+          padding: 2px 4px;
+        }
+      }
+    }
+    p:nth-child(2) {
+      span {
+        color: #2e2794;
+
+        text-decoration: underline;
+      }
+    }
+  }
+}
+.searchOption {
+  display: flex;
+
+  .mapBtb {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    user-select: none;
+  }
+  .formSelect {
+    background-color: transparent;
+    border: none;
+    width: 180px;
+    option {
+      background-color: transparent;
+      border: none;
+    }
+  }
+  .myDropdown {
+    width: 150px;
+    position: relative;
+    display: inline-block;
+    &:hover .dropdown-content {
+      display: block;
+    }
+
+    .dropbtn {
+      background-color: transparent;
+      color: black;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: rgb(249, 249, 249, 0.8);
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      p {
+        text-align: center;
+        margin: 0;
+      }
+
+      span {
+        margin: 10px 5px;
+        font-size: 1.4rem;
+        color: grey;
+        &:hover {
+          color: black;
+        }
+      }
+    }
+  }
+}
+.btnPagin {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    margin: 0;
+  }
+  .prev {
+    background: transparent;
+    border: none;
+    // font-size: 2rem;
+  }
+  .next {
+    background: transparent;
+    border: none;
+    // font-size: 2rem;
+  }
+}

@@ -8,7 +8,7 @@ const initialState: Ishow = {
 };
 
 const loginModalSlice = createSlice({
-  name: "experience",
+  name: "Moldale Login",
   initialState,
   reducers: {
     toogleLoginM(state) {

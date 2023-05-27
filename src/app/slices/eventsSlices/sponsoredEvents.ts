@@ -32,7 +32,7 @@ export const sponsoredEvFetch = createAsyncThunk("fetch sponsored ev", async () 
 });
 
 const sponsoredEv = createSlice({
-  name: "save",
+  name: "sEv",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

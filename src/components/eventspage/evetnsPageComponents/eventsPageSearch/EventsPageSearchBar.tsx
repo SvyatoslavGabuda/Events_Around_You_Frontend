@@ -5,54 +5,179 @@ import { Link } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { FcInfo } from "react-icons/fc";
 import { FaArrowCircleLeft } from "react-icons/fa";
-import { useAppDispatch } from "../../../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
 import { showLoginM } from "../../../../app/slices/loginModalSlice";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-import { eventSearch } from "../../../../app/slices/eventsSlices/eventSearchSlice";
-const EventsPageSearchBar = () => {
+import {
+  eventSearch,
+  saveInputsValues,
+} from "../../../../app/slices/eventsSlices/eventSearchSlice";
+import { sponsoredEvFetchbyCity } from "../../../../app/slices/eventsSlices/sponsoredEventsByCitta";
+interface searchParams {
+  size: number;
+  sort: string;
+  dir: "ASC" | "DESC";
+  page: number;
+}
+const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
   const { auth } = useAuth();
   const dispatch = useAppDispatch();
+  const savedCity = useAppSelector((state) => state.sponsoredEvByCitta.citta);
   const [titolo, setTitolo] = useState<string>("");
   const [dove, setDove] = useState<string>("");
   const [dataS, setDataS] = useState<Date | null>(null);
   const [dataF, setDataF] = useState<Date | null>(null);
+  const notify = () =>
+    toast.error("Inserisci dei dati nel campi input", {
+      position: toast.POSITION.TOP_CENTER,
+    });
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(dataF, dataS);
+    if (auth.accessToken) {
+      if (
+        (dataS === null || isNaN(dataS.getTime()) || dataF === null || isNaN(dataF.getTime())) &&
+        dove !== ""
+      ) {
+        console.log("livello 1 caso 1");
+        dispatch(
+          eventSearch({
+            token: auth.accessToken,
+            city: dove,
+            page: page,
+            size: size,
+            startDate: "",
+            endDate: "",
+            title: titolo,
+            sort: sort,
+            dir: dir,
+          })
+        );
+        dispatch(
+          saveInputsValues({
+            endDate: "",
+            startDate: "",
+            page: page,
+            place: dove,
+            size: size,
+            title: titolo,
+          })
+        );
+      } else if (
+        dataS !== null &&
+        dataF !== null &&
+        !isNaN(dataS.getTime()) &&
+        !isNaN(dataF.getTime())
+      ) {
+        console.log("livello 1 caso 2");
+        console.log(dataS);
+        dispatch(
+          eventSearch({
+            token: auth.accessToken,
+            city: dove,
+            page: page,
+            size: size,
 
-    if (auth.accessToken && dataS === null && dataF === null && dove !== "") {
-      console.log("livello 1 caso 1");
-      dispatch(
-        eventSearch({
-          token: auth.accessToken,
-          city: dove,
-          page: 0,
-          size: 5,
-          startDate: "",
-          endDate: "",
-          title: titolo,
-        })
-      );
-    } else if (auth.accessToken && dataS !== null && dataF !== null) {
-      console.log("livello 1 caso 2");
-      dispatch(
-        eventSearch({
-          token: auth.accessToken,
-          city: dove,
-          page: 0,
-          size: 5,
-
-          startDate: dataS.toISOString(),
-          endDate: dataF.toISOString(),
-          title: titolo,
-        })
-      );
+            startDate: dataS.toISOString(),
+            endDate: dataF.toISOString(),
+            title: titolo,
+            sort: sort,
+            dir: dir,
+          })
+        );
+        dispatch(
+          saveInputsValues({
+            endDate: dataF.toISOString(),
+            startDate: dataS.toISOString(),
+            page: page,
+            place: dove,
+            size: size,
+            title: titolo,
+          })
+        );
+      } else {
+        console.log("qualcosa non va");
+        notify();
+      }
     } else {
-      console.log("qualcosa non va");
+      if (dove !== "") {
+        dispatch(sponsoredEvFetchbyCity({ city: dove, page: 0, size: 4 }));
+      }
     }
   };
+  useEffect(() => {
+    if (savedCity !== "") {
+      setDove(savedCity);
+    }
+  }, []);
+  useEffect(() => {
+    if (auth.accessToken) {
+      if (
+        (dataS === null || isNaN(dataS.getTime()) || dataF === null || isNaN(dataF.getTime())) &&
+        dove !== ""
+      ) {
+        console.log("livello 1 caso 1");
+        dispatch(
+          eventSearch({
+            token: auth.accessToken,
+            city: dove,
+            page: page,
+            size: size,
+            startDate: "",
+            endDate: "",
+            title: titolo,
+            sort: sort,
+            dir: dir,
+          })
+        );
+        dispatch(
+          saveInputsValues({
+            endDate: "",
+            startDate: "",
+            page: page,
+            place: dove,
+            size: size,
+            title: titolo,
+          })
+        );
+      } else if (
+        dataS !== null &&
+        dataF !== null &&
+        !isNaN(dataS.getTime()) &&
+        !isNaN(dataF.getTime())
+      ) {
+        console.log("livello 1 caso 2");
+        console.log(dataS);
+        dispatch(
+          eventSearch({
+            token: auth.accessToken,
+            city: dove,
+            page: page,
+            size: size,
+
+            startDate: dataS.toISOString(),
+            endDate: dataF.toISOString(),
+            title: titolo,
+            sort: sort,
+            dir: dir,
+          })
+        );
+        dispatch(
+          saveInputsValues({
+            endDate: dataF.toISOString(),
+            startDate: dataS.toISOString(),
+            page: page,
+            place: dove,
+            size: size,
+            title: titolo,
+          })
+        );
+      }
+    }
+  }, [page, sort, size, dir]);
   return (
     <>
       <Col>
@@ -64,18 +189,20 @@ const EventsPageSearchBar = () => {
             <Col className="h-50">
               <Form className="eventPageForm" onSubmit={handleSubmit}>
                 <Row>
-                  <Col>
-                    <FloatingLabel label="Cosa ti interessa?" className="mb-3">
-                      <Form.Control
-                        type="text"
-                        placeholder="Nome evento"
-                        value={titolo}
-                        onChange={(e) => {
-                          setTitolo(e.target.value);
-                        }}
-                      />
-                    </FloatingLabel>
-                  </Col>
+                  {auth.accessToken && (
+                    <Col>
+                      <FloatingLabel label="Cosa ti interessa?" className="mb-3">
+                        <Form.Control
+                          type="text"
+                          placeholder="Nome evento"
+                          value={titolo}
+                          onChange={(e) => {
+                            setTitolo(e.target.value);
+                          }}
+                        />
+                      </FloatingLabel>
+                    </Col>
+                  )}
                   <Col>
                     <FloatingLabel label="Dove?" className="mb-3">
                       <Form.Control
@@ -145,6 +272,7 @@ const EventsPageSearchBar = () => {
                       <span className="ps-2">Cerca</span>
                     </button>
                   </Col>
+                  <ToastContainer />
                 </Row>
               </Form>
             </Col>

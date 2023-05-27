@@ -111,6 +111,11 @@ const EventCardUser = ({ ev }: evProps) => {
             elimina
           </button>
         </div>
+        {ev.bloccato && (
+          <div className="eventoBloccato">
+            <p>questo evento è stato bloccato</p>
+          </div>
+        )}
       </Col>
     </>
   );

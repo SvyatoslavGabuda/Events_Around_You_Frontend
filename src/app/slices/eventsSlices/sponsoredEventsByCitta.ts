@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Ievento } from "../../../interfaces/luoghiDiInteresseInt";
 export interface Ifetch {
   content: Ievento[];
@@ -29,10 +29,12 @@ export interface Sort {
 interface sponsoredEv {
   status: "idle" | "loading" | "failed";
   events: Ifetch;
+  citta: string;
 }
 const initialState: sponsoredEv = {
   status: "idle",
   events: {} as Ifetch,
+  citta: "",
 };
 interface params {
   city: string;
@@ -60,9 +62,13 @@ export const sponsoredEvFetchbyCity = createAsyncThunk(
 );
 
 const sponsoredEvBycity = createSlice({
-  name: "save",
+  name: "sEvCity",
   initialState,
-  reducers: {},
+  reducers: {
+    saveInputCity(state, action: PayloadAction<string>) {
+      state.citta = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(sponsoredEvFetchbyCity.pending, (state) => {
@@ -77,5 +83,5 @@ const sponsoredEvBycity = createSlice({
       });
   },
 });
-
+export const { saveInputCity } = sponsoredEvBycity.actions;
 export default sponsoredEvBycity.reducer;

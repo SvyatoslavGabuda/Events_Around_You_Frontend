@@ -1,16 +1,21 @@
 import "./searchHome.scss";
 import { Row, FloatingLabel, Form, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { useAppDispatch } from "../../../../app/hooks";
-import { sponsoredEvFetchbyCity } from "../../../../app/slices/eventsSlices/sponsoredEventsByCitta";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import {
+  saveInputCity,
+  sponsoredEvFetchbyCity,
+} from "../../../../app/slices/eventsSlices/sponsoredEventsByCitta";
 interface params {
   page: number;
 }
 const SearchBarHome = ({ page }: params) => {
   const [city, setCity] = useState("");
   const dispatch = useAppDispatch();
+  const savedCity = useAppSelector((state) => state.sponsoredEvByCitta.citta);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    dispatch(saveInputCity(city));
     dispatch(sponsoredEvFetchbyCity({ city: city, page: page, size: 4 }));
   };
   useEffect(() => {
@@ -18,6 +23,12 @@ const SearchBarHome = ({ page }: params) => {
       dispatch(sponsoredEvFetchbyCity({ city: city, page: page, size: 4 }));
     }
   }, [page]);
+  useEffect(() => {
+    if (savedCity !== "") {
+      setCity(savedCity);
+    }
+  }, []);
+
   return (
     <>
       <Col>

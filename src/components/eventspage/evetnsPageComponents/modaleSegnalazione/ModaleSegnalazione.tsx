@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import { Ievento, IuserProfile } from "../../../../interfaces/luoghiDiInteresseInt";
 import { useState } from "react";
 import useAuth from "../../../../auth/hooks/useAuth";
+import { ToastContainer, toast } from "react-toastify";
 interface modalProps {
   showS: boolean;
   setShowS: (show: boolean) => void;
@@ -13,6 +14,14 @@ interface modalProps {
 const ModaleSegnalazione = ({ showS, setShowS, ev, user }: modalProps) => {
   const { auth } = useAuth();
   const [con, setCon] = useState<string>("");
+  const notifyOfSucess = () =>
+    toast.info("Segnalazione inviata con sucesso", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
+  const notifyOfInsucess = () =>
+    toast.warn("Segnalazione non riuscita", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
   const handleClose = () => {
     setShowS(false);
   };
@@ -35,14 +44,18 @@ const ModaleSegnalazione = ({ showS, setShowS, ev, user }: modalProps) => {
         }
       );
       if (response.ok) {
-        console.log("segnalazione mandata");
+        notifyOfSucess();
+      } else {
+        notifyOfInsucess();
       }
     } catch (error) {
       console.log(error);
+      notifyOfInsucess();
     }
   };
   return (
     <>
+      <ToastContainer />
       <Modal show={showS} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Segnalazione per: {ev?.title}</Modal.Title>

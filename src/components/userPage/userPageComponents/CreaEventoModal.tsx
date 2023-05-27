@@ -42,8 +42,8 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
   const dispatch = useAppDispatch();
   const userProfile: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
   // Ho dato dei valori di defaut per una creazione più veloce durante il testing
-  const [lat, setLat] = useState<number>(48.1232);
-  const [lng, setLng] = useState<number>(48.1232);
+  const [lat, setLat] = useState<number>(45.464211);
+  const [lng, setLng] = useState<number>(9.204659);
   const [title, setTitle] = useState<string>("My Event");
   const [subTitle, setSubTitle] = useState<string>("My Event");
   const [description, setDescription] = useState<string>("Desciptio...");

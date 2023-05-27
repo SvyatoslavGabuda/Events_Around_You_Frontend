@@ -1,9 +1,11 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface likeEvI {
   status: "idle" | "loading" | "failed";
+  userLikes: number[];
 }
 const initialState: likeEvI = {
   status: "idle",
+  userLikes: [],
 };
 interface params {
   token: string;
@@ -34,9 +36,15 @@ export const likeEvFetch = createAsyncThunk(
 );
 
 const likeEv = createSlice({
-  name: "save",
+  name: "saveLikes",
   initialState,
-  reducers: {},
+  reducers: {
+    userLikes(state, action: PayloadAction<number>) {
+      state.userLikes = !state.userLikes.includes(action.payload)
+        ? [...state.userLikes, action.payload]
+        : state.userLikes.filter((el) => el !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(likeEvFetch.pending, (state) => {
@@ -50,5 +58,5 @@ const likeEv = createSlice({
       });
   },
 });
-
+export const { userLikes } = likeEv.actions;
 export default likeEv.reducer;

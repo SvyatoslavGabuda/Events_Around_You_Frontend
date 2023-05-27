@@ -36,7 +36,7 @@ export interface CosaSegnalata {
 const AdminPage = () => {
   const [segnalazioni, setSegnalazioni] = useState<Isegnalazioni[]>([]);
   const { auth } = useAuth();
-  const [showSegnalazioni, setShowSegnalazioni] = useState(false);
+  const [showSegnalazioni, setShowSegnalazioni] = useState(true);
   const [showSegnalazioniArc, setShowSegnalazioniArc] = useState(false);
   const [showEvBloccati, setShowEvBloccati] = useState(false);
   const [evB, setEvB] = useState<Ievento[]>([]);
@@ -74,11 +74,16 @@ const AdminPage = () => {
       console.log(error);
     }
   };
+  useEffect(() => {
+    // loadEventiBloccati();
+    // loadSegnalazioni(true);
+    loadSegnalazioni(false);
+  }, []);
   return (
     <>
       <Container style={{ minHeight: "80vh" }}>
         <Row>
-          <Nav fill variant="tabs" defaultActiveKey="/home">
+          <Nav fill variant="tabs" defaultActiveKey="link-1">
             <Nav.Item>
               <Nav.Link
                 eventKey="link-1"
@@ -120,6 +125,7 @@ const AdminPage = () => {
             </Nav.Item>
           </Nav>
         </Row>
+
         {showSegnalazioni ? (
           <>
             <Row>
@@ -149,7 +155,9 @@ const AdminPage = () => {
                   <Segnalazione key={s.id_segnalazione + "segnalazione"} segnalazione={s} />
                 ))
               ) : (
-                <></>
+                <>
+                  <p>non ci sono segnalazioni dai utenti</p>
+                </>
               )}
             </Row>
           </>

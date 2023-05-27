@@ -28,7 +28,7 @@ export const getEventByID = createAsyncThunk("fetch by id", async ({ id_eve }: p
 });
 
 const EvByID = createSlice({
-  name: "save",
+  name: "idEv",
   initialState,
   reducers: {},
   extraReducers: (builder) => {

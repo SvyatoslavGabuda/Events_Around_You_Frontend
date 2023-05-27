@@ -17,7 +17,7 @@ export interface params {
 }
 
 export const userProfileFetch = createAsyncThunk(
-  "fetchComment",
+  "User Profile Fetch",
   async ({ username, token }: params) => {
     console.log(token);
 

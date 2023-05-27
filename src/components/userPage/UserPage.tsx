@@ -97,8 +97,9 @@ const UserPage = () => {
               </>
             )}
             <Col xs={12} sm={2} className="d-flex flex-column justify-content-center mx-2 mx-sm-0">
-              <p>
-                Your Role:{" "}
+              <p className="userRole">
+                Role:
+                <br />
                 {userProfile?.roles?.find((role) => role.roleName === "ROLE_ADMIN") ? (
                   <FaUserSecret />
                 ) : userProfile?.roles?.find((role) => role.roleName === "ROLE_EVENTCREATOR") ? (

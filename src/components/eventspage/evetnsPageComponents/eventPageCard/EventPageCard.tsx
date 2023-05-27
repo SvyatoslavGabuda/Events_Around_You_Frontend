@@ -3,30 +3,32 @@ import "./eventPageCard.scss";
 import { useState, useEffect } from "react";
 import CommentoEventPage from "./CommentoEventPage";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import useAuth from "../../../auth/hooks/useAuth";
+import useAuth from "../../../../auth/hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
 
 import { FcInfo } from "react-icons/fc";
 import { FaArrowCircleLeft } from "react-icons/fa";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { showLoginM } from "../../../app/slices/loginModalSlice";
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks";
+import { showLoginM } from "../../../../app/slices/loginModalSlice";
 
 import format from "date-fns/format";
-import { likeEvFetch } from "../../../app/slices/eventsSlices/eventLikeSlice";
-import { Ievento, IuserProfile } from "../../../interfaces/luoghiDiInteresseInt";
-import ModaleSegnalazione from "./modaleSegnalazione/ModaleSegnalazione";
-import { getEventByID } from "../../../app/slices/eventsSlices/eventByIdSlice";
+import { likeEvFetch, userLikes } from "../../../../app/slices/eventsSlices/eventLikeSlice";
+import { Icommento, Ievento, IuserProfile } from "../../../../interfaces/luoghiDiInteresseInt";
+import ModaleSegnalazione from "../modaleSegnalazione/ModaleSegnalazione";
+import { getEventByID } from "../../../../app/slices/eventsSlices/eventByIdSlice";
 import { TbInfoSquareRounded } from "react-icons/tb";
 import { GoCommentDiscussion, GoReport } from "react-icons/go";
 import { BiCommentAdd } from "react-icons/bi";
-import { sponsoredEvFetch } from "../../../app/slices/eventsSlices/sponsoredEvents";
+
 interface evProps {
   ev: Ievento;
+  updateF: any;
 }
-const EventPageCard = ({ ev }: evProps) => {
+const EventPageCard = ({ ev, updateF }: evProps) => {
   const { auth } = useAuth();
   const navigate = useNavigate();
   const userProfile: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
+  const userlikes: number[] = useAppSelector((state) => state.likeDaUtenu.userLikes);
   const dispatch = useAppDispatch();
   const [showCommenti, setShowCommenti] = useState(false);
   const [addComment, setAddComment] = useState(false);
@@ -62,12 +64,16 @@ const EventPageCard = ({ ev }: evProps) => {
         setTitoloCom("");
         setRaitingCom("");
         setContenutoCom("");
+        updateF();
       }
     } catch (error) {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    console.log("effect like");
+    userProfile?.likes?.forEach((ev) => dispatch(userLikes(ev.idLuogo)));
+  }, []);
   return (
     <>
       <Row className="py-3 justify-content-center">
@@ -122,15 +128,19 @@ const EventPageCard = ({ ev }: evProps) => {
                           id_eve: ev.idLuogo,
                         })
                       );
+                      dispatch(userLikes(ev.idLuogo));
                     }
                   }}
                 >
                   {ev.likeDaUtenti.length}
-                  {ev.likeDaUtenti.find((u) => u.username === userProfile.username) ? (
-                    <AiFillHeart style={{ fontSize: "1.3rem" }} />
-                  ) : (
-                    <AiOutlineHeart style={{ fontSize: "1.3rem" }} />
-                  )}
+                  {
+                    /* {ev.likeDaUtenti.find((u) => u.username === userProfile.username) || */
+                    userlikes?.includes(ev.idLuogo) ? (
+                      <AiFillHeart style={{ fontSize: "1.3rem" }} />
+                    ) : (
+                      <AiOutlineHeart style={{ fontSize: "1.3rem" }} />
+                    )
+                  }
                 </button>
                 {auth.accessToken ? (
                   <>
@@ -207,9 +217,18 @@ const EventPageCard = ({ ev }: evProps) => {
               )}{" "}
               {ev?.commenti?.length > 0 ? (
                 <>
-                  {ev.commenti.map((com) => (
-                    <CommentoEventPage com={com} key={com.idCommento + "commento" + ev.idLuogo} />
-                  ))}
+                  {[...ev.commenti]
+                    .sort(
+                      (a: Icommento, b: Icommento) =>
+                        new Date(b.dataCommento).getTime() - new Date(a.dataCommento).getTime()
+                    )
+                    .map((com) => (
+                      <CommentoEventPage
+                        com={com}
+                        key={com.idCommento + "commento" + ev.idLuogo}
+                        updateF={() => updateF()}
+                      />
+                    ))}
                 </>
               ) : (
                 <>
