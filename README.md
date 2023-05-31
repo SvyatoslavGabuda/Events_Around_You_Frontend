@@ -1,6 +1,6 @@
 # Events Around You - FrontEnd
 
-This is the repository for the backend of the "Events Around You" application, an application for managing events in the vicinity.
+Events Around You is a web application that allows users to discover and explore events happening around them or in the places they plan to visit. With a user-friendly interface and powerful search capabilities, users can easily find events based on location, interests, date, and more. Additionally, the application enables users to create and share their own events, fostering a vibrant community of event organizers and attendees.
 
 ## Technologies Used
 
