@@ -19,7 +19,8 @@ const CommentoEventPage = ({ com, updateF }: commentProps) => {
       <div className="commentoEventPage">
         <div className="commentoEventPageText">
           <h5>
-            {com.titoloCommento} raiting: {com.raiting}
+            <img src={com.utente.urlImmagineProfilo} alt="immagine profilo" /> {com.titoloCommento}{" "}
+            <span>voto:</span> {com.raiting}
           </h5>
           <p>{com.contenuto}</p>
           <p>
@@ -35,7 +36,7 @@ const CommentoEventPage = ({ com, updateF }: commentProps) => {
                   setDelModal(true);
                 }}
               >
-                elimina <BiCommentX />
+                <BiCommentX />
               </button>
               <DeleteComModal
                 show={delModal}

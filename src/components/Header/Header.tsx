@@ -2,8 +2,11 @@ import "./header.scss";
 import { Container, Navbar, Nav, NavDropdown, Form } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
 import useAuth from "../../auth/hooks/useAuth";
+import { useAppDispatch } from "../../app/hooks";
+import { emptiLikes } from "../../app/slices/eventsSlices/eventLikeSlice";
 const Header = () => {
   const { auth, setAuth } = useAuth();
+  const dispatch = useAppDispatch();
   return (
     <>
       <Navbar expand="lg" className="myNavbar">
@@ -19,7 +22,8 @@ const Header = () => {
                 <Link to="/events" data-rr-ui-dropdown-item className="dropdown-item">
                   Eventi
                 </Link>
-                <Link to="/hotels" data-rr-ui-dropdown-item className="dropdown-item">
+                {/* da implementare nelle prossime versioni =) */}
+                {/* <Link to="/hotels" data-rr-ui-dropdown-item className="dropdown-item">
                   Hotels
                 </Link>
                 <Link to="/ristoranti" data-rr-ui-dropdown-item className="dropdown-item">
@@ -27,10 +31,12 @@ const Header = () => {
                 </Link>
                 <Link to="/attrazioni" data-rr-ui-dropdown-item className="dropdown-item">
                   Attrazioni
-                </Link>
+                </Link> */}
 
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                <NavDropdown.Item href="#action/3.4" disabled>
+                  Coming soon...
+                </NavDropdown.Item>
               </NavDropdown>
               {auth?.username ? (
                 <>
@@ -51,6 +57,7 @@ const Header = () => {
                     className="nav-link logout"
                     onClick={() => {
                       setAuth({ accessToken: null, roles: null, tokenType: null, username: null });
+                      dispatch(emptiLikes());
                     }}
                   >
                     Logout

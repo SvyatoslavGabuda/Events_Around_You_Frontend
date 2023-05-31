@@ -46,7 +46,9 @@ export const sponsoredEvFetchbyCity = createAsyncThunk(
   "fetch sponsored ev by city",
   async ({ city, page, size }: params) => {
     try {
-      const response = await fetch(url + city + "?page=" + page + "&size=" + size);
+      const response = await fetch(url + city + "?page=" + page + "&size=" + size, {
+        headers: { "Cache-Control": "no-store" },
+      });
       if (response.ok) {
         const data = await response.json();
 

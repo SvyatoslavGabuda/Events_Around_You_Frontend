@@ -17,10 +17,10 @@ const url =
   "http://localhost:8081/events/sponsored?page=" + initialState.page + "&size=" + initialState.size;
 export const sponsoredEvFetch = createAsyncThunk("fetch sponsored ev", async () => {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { headers: { "Cache-Control": "no-store" } });
     if (response.ok) {
       const data = await response.json();
-      console.log(data.content);
+      // console.log(data.content);
 
       return data.content;
     } else {

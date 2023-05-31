@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { sponsoredEvFetch } from "../../app/slices/eventsSlices/sponsoredEvents";
 
 import useAuth from "../../auth/hooks/useAuth";
-import { Ievento } from "../../interfaces/luoghiDiInteresseInt";
+import { Ievento, IuserProfile } from "../../interfaces/luoghiDiInteresseInt";
 import { Link, useNavigate } from "react-router-dom";
 import { eventSearch, inputsValue } from "../../app/slices/eventsSlices/eventSearchSlice";
 import { sponsoredEvFetchbyCity } from "../../app/slices/eventsSlices/sponsoredEventsByCitta";
@@ -17,40 +17,110 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
   MdOutlineKeyboardDoubleArrowLeft,
 } from "react-icons/md";
+import { GrMapLocation } from "react-icons/gr";
+import { userLikes } from "../../app/slices/eventsSlices/eventLikeSlice";
 
 const EventsPage = () => {
   const { auth } = useAuth();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
+  const userProfile: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
+
   const ev = useAppSelector((state) => state.sponsoredEv.events);
   const evByCitta = useAppSelector((state) => state.sponsoredEvByCitta.events.content);
   const savedCity = useAppSelector((state) => state.sponsoredEvByCitta.citta);
-  const status = useAppSelector((state) => state.sponsoredEv.status);
   const evSerachGeneral = useAppSelector((state) => state.eventSearch.events);
   const evSerachInputValues: inputsValue = useAppSelector((state) => state.eventSearch.inputsValue);
-  const [eventi, setEventi] = useState<Ievento[]>([]);
   const [eventiTrovati, setEventiTrovati] = useState<Ievento[]>([]);
+
   //state per paginazione
-  const [btnText, setBtnText] = useState("Ordina per");
+  const [btnText, setBtnText] = useState<JSX.Element>(<>{"Ordina per..."}</>);
   const [size, setSize] = useState(5);
   const [sort, setSort] = useState("startDate");
   const [dir, setDir] = useState<"ASC" | "DESC">("ASC");
   const [page, setPage] = useState(0);
-  // const [numOfPages, setNumOfPages] = useState(1);
-  const [prevStatus, setPrevStaus] = useState(true);
+  const [prevStatus, setPrevStatus] = useState(true);
   const [nextStatus, setNextStatus] = useState(false);
-  useEffect(() => {
-    // console.log("use e 1");
-    dispatch(sponsoredEvFetch());
-  }, []);
-  // useEffect(() => {
-  //   if (status === "idle") {
-  //     console.log("use 2");
 
-  //     // setEventi(ev);
-  //   }
-  // }, [ev]);
+  const handlePrevPage = () => {
+    if (page === 1) {
+      setPrevStatus(true);
+      setNextStatus(false);
+      setPage(page - 1);
+      console.log("Non puoi andare in negativo");
+    } else {
+      setNextStatus(false);
+      setPage(page - 1);
+    }
+    scrollToTop();
+  };
+  const handleNextPage = () => {
+    if (page === evSerachGeneral?.totalPages - 2) {
+      setNextStatus(true);
+      setPage(page + 1);
+      setPrevStatus(false);
+    } else {
+      setPage(page + 1);
+      setPrevStatus(false);
+    }
+    scrollToTop();
+  };
+  const scrollToTop = () => {
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }, 100);
+  };
+  const handleSortBy = (field: string, order: "ASC" | "DESC") => {
+    let btnText = "";
+    let icon = null;
+    if (field === "startDate") {
+      btnText = `Data d'inizio `;
+      icon =
+        order === "ASC" ? (
+          <MdOutlineKeyboardArrowUp style={{ fontSize: 20 }} />
+        ) : (
+          <MdOutlineKeyboardArrowDown style={{ fontSize: 20 }} />
+        );
+    } else if (field === "title") {
+      btnText = `Nome `;
+      icon =
+        order === "ASC" ? (
+          <MdOutlineKeyboardArrowUp style={{ fontSize: 20 }} />
+        ) : (
+          <MdOutlineKeyboardArrowDown style={{ fontSize: 20 }} />
+        );
+    } else if (field === "endDate") {
+      btnText = `Data di fine `;
+      icon =
+        order === "ASC" ? (
+          <MdOutlineKeyboardArrowUp style={{ fontSize: 20 }} />
+        ) : (
+          <MdOutlineKeyboardArrowDown style={{ fontSize: 20 }} />
+        );
+    }
+
+    setBtnText(
+      <>
+        {btnText}
+        {icon}
+      </>
+    );
+    setSort(field);
+    setDir(order);
+  };
+
+  useEffect(() => {
+    dispatch(sponsoredEvFetch());
+    userProfile?.likes?.forEach((ev) => dispatch(userLikes(ev.idLuogo)));
+    return () => {
+      userProfile?.likes?.forEach((ev) => dispatch(userLikes(ev.idLuogo)));
+    };
+  }, []);
+
   useEffect(() => {
     setEventiTrovati(evSerachGeneral.content);
   }, [evSerachGeneral]);
@@ -85,125 +155,91 @@ const EventsPage = () => {
             )}{" "}
           </>
         )}
+
         {eventiTrovati?.length > 0 && auth?.username ? (
           <>
             <Row>
-              <Col>
-                <h2>Eventi trovati - {evSerachGeneral.totalElements}</h2>
+              <Col xs={12} md={4}>
+                <h2>{evSerachGeneral.totalElements} Eventi trovati</h2>
               </Col>
 
-              <Col className="searchOption">
+              <Col className="searchOption" xs={12} md={8}>
                 <button
                   className="mapBtb"
                   onClick={() => {
                     navigate("/events/map");
                   }}
                 >
-                  Mappa
+                  <GrMapLocation /> Mappa
                 </button>
-                <Form.Select
-                  className="formSelect"
-                  onChange={(e) => {
-                    setSize(Number(e.target.value));
-                  }}
-                >
-                  {/* <option>number of el</option> */}
-                  <option value="5"> number of el 5</option>
-                  <option value="10"> number of el 10</option>
-                  <option value="15">number of el 15</option>
-                </Form.Select>
 
-                <div className="myDropdown">
-                  <button className="dropbtn">
-                    {btnText}
-                    <MdOutlineArrowDropDown />
-                  </button>
-                  <div className="dropdown-content">
-                    <p>
-                      Data
-                      <span
-                        onClick={() => {
-                          console.log("sortBy('data', 'asc')");
-                          setBtnText("Data Asc");
-                          setSort("startDate");
-                          setDir("ASC");
-                        }}
-                      >
-                        <MdOutlineKeyboardArrowUp />
-                      </span>
-                      <span
-                        onClick={() => {
-                          console.log("sortBy('data', 'desc')");
-                          setBtnText("Data desc");
-                          setSort("startDate");
-                          setDir("DESC");
-                        }}
-                      >
-                        <MdOutlineKeyboardArrowDown />
-                      </span>
-                    </p>
-                    <p>
-                      nome
-                      <span
-                        onClick={() => {
-                          console.log("sortBy('ndata', 'asc')");
-                          setBtnText("Nome asc");
-                          setSort("title");
-                          setDir("ASC");
-                        }}
-                      >
-                        <MdOutlineKeyboardArrowUp />
-                      </span>
-                      <span
-                        onClick={() => {
-                          console.log("sortBy('ndata', 'desc')");
-                          setBtnText("Nome desc");
-                          setSort("title");
-                          setDir("DESC");
-                        }}
-                      >
-                        <MdOutlineKeyboardArrowDown />
-                      </span>
-                    </p>
+                <div className="pagination">
+                  <div className="myDropdown">
+                    <button className="dropbtn">{btnText}</button>
+                    <div className="dropdown-content">
+                      <p>
+                        Data d'inizio
+                        <span onClick={() => handleSortBy("startDate", "ASC")}>
+                          <MdOutlineKeyboardArrowUp />
+                        </span>
+                        <span onClick={() => handleSortBy("startDate", "DESC")}>
+                          <MdOutlineKeyboardArrowDown />
+                        </span>
+                      </p>
+                      <p>
+                        Data di fine
+                        <span onClick={() => handleSortBy("endDate", "ASC")}>
+                          <MdOutlineKeyboardArrowUp />
+                        </span>
+                        <span onClick={() => handleSortBy("endDate", "DESC")}>
+                          <MdOutlineKeyboardArrowDown />
+                        </span>
+                      </p>
+                      <p>
+                        Nome
+                        <span onClick={() => handleSortBy("title", "ASC")}>
+                          <MdOutlineKeyboardArrowUp />
+                        </span>
+                        <span onClick={() => handleSortBy("title", "DESC")}>
+                          <MdOutlineKeyboardArrowDown />
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="btnPagin">
-                  <button
-                    className="prev"
-                    disabled={prevStatus}
-                    onClick={() => {
-                      if (page === 1) {
-                        setPrevStaus(true);
-                        setNextStatus(false);
-                        setPage(page - 1);
-                        console.log("non puoi andare in negativo");
-                      } else {
-                        setNextStatus(false);
-                        setPage(page - 1);
-                      }
+                  <Form.Select
+                    className="formSelect"
+                    onChange={(e) => {
+                      setSize(Number(e.target.value));
                     }}
                   >
-                    <MdOutlineKeyboardDoubleArrowLeft />
-                  </button>
-                  <p>
-                    page {page + 1} of {evSerachGeneral?.totalPages}
-                  </p>
-                  <button
-                    className="next"
-                    disabled={nextStatus}
-                    onClick={() => {
-                      if (page === evSerachGeneral?.totalPages - 2) {
-                        setNextStatus(true);
-                        setPage(page + 1);
-                        setPrevStaus(false);
-                      } else {
-                        setPage(page + 1);
-                        setPrevStaus(false);
-                      }
-                    }}
-                  >
-                    <MdOutlineKeyboardDoubleArrowRight />
-                  </button>
+                    {/* <option>number of el</option> */}
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                  </Form.Select>
+                  <div className="btnPagin">
+                    <button
+                      className="prev"
+                      disabled={prevStatus}
+                      onClick={() => {
+                        handlePrevPage();
+                      }}
+                    >
+                      <MdOutlineKeyboardDoubleArrowLeft />
+                    </button>
+                    <p>
+                      page {page + 1} of {evSerachGeneral?.totalPages}
+                    </p>
+                    <button
+                      className="next"
+                      disabled={nextStatus}
+                      onClick={() => {
+                        handleNextPage();
+                      }}
+                    >
+                      <MdOutlineKeyboardDoubleArrowRight />
+                    </button>
+                  </div>
                 </div>
               </Col>
             </Row>
@@ -223,8 +259,8 @@ const EventsPage = () => {
                         startDate: evSerachInputValues.startDate,
                         endDate: evSerachInputValues.endDate,
                         title: evSerachInputValues.title,
-                        sort: "startDate",
-                        dir: "ASC",
+                        sort: evSerachInputValues.sort,
+                        dir: evSerachInputValues.dir,
                       })
                     );
                   }
@@ -237,21 +273,7 @@ const EventsPage = () => {
                   className="prev"
                   disabled={prevStatus}
                   onClick={() => {
-                    setTimeout(() => {
-                      window.scrollTo({
-                        top: 0,
-                        behavior: "smooth",
-                      });
-                    }, 100);
-                    if (page === 1) {
-                      setPrevStaus(true);
-                      setNextStatus(false);
-                      setPage(page - 1);
-                      console.log("non puoi andare in negativo");
-                    } else {
-                      setNextStatus(false);
-                      setPage(page - 1);
-                    }
+                    handlePrevPage();
                   }}
                 >
                   <MdOutlineKeyboardDoubleArrowLeft />
@@ -263,20 +285,7 @@ const EventsPage = () => {
                   className="next"
                   disabled={nextStatus}
                   onClick={() => {
-                    setTimeout(() => {
-                      window.scrollTo({
-                        top: 0,
-                        behavior: "smooth",
-                      });
-                    }, 100);
-                    if (page === evSerachGeneral?.totalPages - 2) {
-                      setNextStatus(true);
-                      setPage(page + 1);
-                      setPrevStaus(false);
-                    } else {
-                      setPage(page + 1);
-                      setPrevStaus(false);
-                    }
+                    handleNextPage();
                   }}
                 >
                   <MdOutlineKeyboardDoubleArrowRight />

@@ -7,6 +7,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useAppDispatch } from "../../app/hooks";
 import { userProfileFetch } from "../../app/slices/userProfileSlice";
 import { hideLoginM } from "../../app/slices/loginModalSlice";
+import { ToastContainer, toast } from "react-toastify";
 interface logingProps {
   inModal: boolean;
 }
@@ -24,6 +25,10 @@ const LoginForm = ({ inModal }: logingProps) => {
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
+  const notifyOfInsucess = (testo: string) =>
+    toast.error(testo, {
+      position: toast.POSITION.TOP_CENTER,
+    });
   useEffect(() => {
     if (userRef.current !== null) {
       userRef.current.focus();
@@ -44,7 +49,7 @@ const LoginForm = ({ inModal }: logingProps) => {
         },
       });
       if (response.ok) {
-        console.log(response);
+        // console.log(response);
         const data = await response.json();
         const accessToken = data.accessToken;
         const roles = data.roles;
@@ -68,10 +73,12 @@ const LoginForm = ({ inModal }: logingProps) => {
         const errorData = await response.json();
         const message = errorData.message;
         console.error(message);
-        setErrMsg(message);
+        notifyOfInsucess(message);
+        // setErrMsg(message);
       }
     } catch (error) {
-      setErrMsg("Si è verificato un errore durante la richiesta di login.");
+      // setErrMsg("Si è verificato un errore durante la richiesta di login.");
+      notifyOfInsucess("Si è verificato un errore durante la richiesta di login.");
     }
   };
   return (
@@ -105,11 +112,14 @@ const LoginForm = ({ inModal }: logingProps) => {
                   required
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
-                Login
-              </Button>
+              <div className="d-flex justify-content-center">
+                <button type="submit" className="basicBtn">
+                  Login
+                </button>
+              </div>
             </Form>
           </Col>
+          <ToastContainer />
         </Row>
       </Container>
     </>

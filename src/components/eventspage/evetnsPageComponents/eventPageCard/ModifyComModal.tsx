@@ -90,17 +90,14 @@ const ModifyComModal = ({ show, setShow, com, updateF }: modifyComProps) => {
                 }}
               />
             </FloatingLabel>
-            <Button variant="primary" type="submit">
+            <button className="modalBtbBasic" type="submit">
               Commenta
-            </Button>
+            </button>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button className="modalBtbBasic" variant="secondary" onClick={handleClose}>
             Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>

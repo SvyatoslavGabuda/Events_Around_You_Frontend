@@ -22,6 +22,7 @@ export const likeEvFetch = createAsyncThunk(
         headers: {
           Authorization: "Bearer " + token,
           "content-type": "application/json",
+          "Cache-Control": "no-store",
         },
       });
       if (response.ok) {
@@ -44,6 +45,9 @@ const likeEv = createSlice({
         ? [...state.userLikes, action.payload]
         : state.userLikes.filter((el) => el !== action.payload);
     },
+    emptiLikes(state) {
+      state.userLikes = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -58,5 +62,5 @@ const likeEv = createSlice({
       });
   },
 });
-export const { userLikes } = likeEv.actions;
+export const { userLikes, emptiLikes } = likeEv.actions;
 export default likeEv.reducer;

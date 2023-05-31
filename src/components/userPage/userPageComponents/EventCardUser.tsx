@@ -8,30 +8,46 @@ import useAuth from "../../../auth/hooks/useAuth";
 import { getEventByID } from "../../../app/slices/eventsSlices/eventByIdSlice";
 import { useState } from "react";
 import ModificaEventoModal from "./ModificaEventoModal";
+import { userProfileFetch } from "../../../app/slices/userProfileSlice";
 interface evProps {
   ev: Ievento;
 }
+export interface IEliminaEvento {
+  idEv: number;
+  token: string;
+  username: string;
+}
+export const eliminaEvento = async ({ idEv, token, username }: IEliminaEvento) => {
+  try {
+    const response = await fetch("http://localhost:8081/events/" + idEv, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + token,
+        "content-type": "application/json",
+      },
+    });
+    if (response.ok) {
+      if (username && token) {
+        console.log("evento eliminato");
+
+        userProfileFetch({ username: username, token: token });
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 const EventCardUser = ({ ev }: evProps) => {
   const { auth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
-  const eliminaEvento = async (id: string) => {
-    try {
-      const response = await fetch("http://localhost:8081/events/" + id, {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + auth.accessToken,
-          "content-type": "application/json",
-        },
-      });
-      if (response.ok) {
-        console.log("evento eliminato");
-      }
-    } catch (error) {
-      console.log(error);
+  const handleEliminaEvento = async () => {
+    if (auth.username && auth.accessToken) {
+      eliminaEvento({ idEv: ev.idLuogo, token: auth.accessToken, username: auth.username });
     }
   };
+
   const sponsorizzaEvento = async (id: string) => {
     try {
       const response = await fetch("http://localhost:8081/events/sponsor/" + id, {
@@ -42,7 +58,11 @@ const EventCardUser = ({ ev }: evProps) => {
         },
       });
       if (response.ok) {
-        console.log("evento sponsorizzato");
+        if (auth.username && auth.accessToken) {
+          console.log("evento sponsorizzato");
+
+          dispatch(userProfileFetch({ username: auth.username, token: auth.accessToken }));
+        }
       }
     } catch (error) {
       console.log(error);
@@ -105,7 +125,7 @@ const EventCardUser = ({ ev }: evProps) => {
           <ModificaEventoModal show={show} setShow={setShow} ev={ev} />
           <button
             onClick={() => {
-              eliminaEvento("" + ev.idLuogo);
+              handleEliminaEvento();
             }}
           >
             elimina

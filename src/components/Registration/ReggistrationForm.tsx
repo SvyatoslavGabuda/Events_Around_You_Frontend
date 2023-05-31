@@ -179,13 +179,15 @@ const ReggistrationForm = () => {
                   checked={inputCheked}
                 />
               </Form.Group>
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={!validName || !validPwd || !validMatch || !inputCheked ? true : false}
-              >
-                Registrati
-              </Button>
+              <div className="d-flex justify-content-center">
+                <button
+                  className="basicBtn"
+                  type="submit"
+                  disabled={!validName || !validPwd || !validMatch || !inputCheked ? true : false}
+                >
+                  Registrati
+                </button>
+              </div>
             </Form>
           </Col>
         </Row>

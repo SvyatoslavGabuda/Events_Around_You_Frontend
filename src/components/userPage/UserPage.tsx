@@ -22,6 +22,7 @@ const UserPage = () => {
   const dispatch = useAppDispatch();
   const [userProfile, setUserProfile] = useState<IuserProfile>({} as IuserProfile);
   const userProfilemine: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
+  const userProfileStatus = useAppSelector((state) => state.userProfile.status);
   const userProfile2: IuserProfile = useAppSelector((state) => state.userProfileById.userLogged);
   const [show, setShow] = useState(false);
   const [showMEv, setShowMEv] = useState(false);
@@ -31,7 +32,7 @@ const UserPage = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log(param?.id);
+    // console.log(param?.id);
     if (param.id === undefined) {
       setUserProfile(userProfilemine);
     } else {
@@ -43,7 +44,7 @@ const UserPage = () => {
         );
       }
     }
-  }, [param]);
+  }, [param, userProfileStatus]);
 
   useEffect(() => {
     if (!isLoading) {
@@ -55,7 +56,7 @@ const UserPage = () => {
       {
         <Container className="profileContainer">
           <Row>
-            <Col xs={12} sm={6} className="d-flex justify-content-center ">
+            <Col xs={12} sm={5} className="d-flex justify-content-center ">
               <div className="profilePic ">
                 {userProfile?.urlImmagineProfilo !== null ? (
                   <img src={userProfile?.urlImmagineProfilo} alt="profile pic" />
@@ -96,7 +97,7 @@ const UserPage = () => {
                 <p>problema di caricamento del</p>
               </>
             )}
-            <Col xs={12} sm={2} className="d-flex flex-column justify-content-center mx-2 mx-sm-0">
+            <Col xs={12} sm={3} className="d-flex flex-column justify-content-center mx-2 mx-sm-0">
               <p className="userRole">
                 Role:
                 <br />

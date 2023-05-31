@@ -14,7 +14,7 @@ interface params {
 const url = "http://localhost:8081/events/info/";
 export const getEventByID = createAsyncThunk("fetch by id", async ({ id_eve }: params) => {
   try {
-    const response = await fetch(url + id_eve);
+    const response = await fetch(url + id_eve, { headers: { "Cache-Control": "no-store" } });
     if (response.ok) {
       const data = await response.json();
       console.log(data);

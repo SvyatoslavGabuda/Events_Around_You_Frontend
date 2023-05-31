@@ -76,10 +76,10 @@ const ModaleSegnalazione = ({ showS, setShowS, ev, user }: modalProps) => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="primary" type="submit" onClick={handleClose}>
+            <button className="modalBtbBasic" type="submit" onClick={handleClose}>
               Submit
-            </Button>
-            <Button variant="secondary" onClick={handleClose}>
+            </button>
+            <Button className="modalBtbBasic" variant="secondary" onClick={handleClose}>
               Close
             </Button>
           </Modal.Footer>

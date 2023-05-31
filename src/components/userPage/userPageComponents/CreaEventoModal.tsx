@@ -277,15 +277,15 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                     </Form.Group>
                   </Col>
                 </Row>
-                <Button
-                  variant="primary"
+                <button
+                  className="modalBtbBasic"
                   type="button"
                   onClick={(e) => {
                     handleSubmit1(e);
                   }}
                 >
                   next
-                </Button>
+                </button>
               </div>
             ) : (
               <></>
@@ -338,8 +338,8 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                     value={provincia}
                   />
                 </Form.Group>
-                <Button
-                  variant="primary"
+                <button
+                  className="modalBtbBasic"
                   type="button"
                   onClick={(e) => {
                     handleSubmit2(e);
@@ -348,7 +348,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   }}
                 >
                   next
-                </Button>
+                </button>
               </div>
             ) : (
               <></>
@@ -359,15 +359,15 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   <Form.Label>Load image</Form.Label>
                   <Form.Control type="file" placeholder="Enter email" onChange={handleChange} />
                 </Form.Group>
-                <Button
-                  variant="primary"
+                <button
+                  className="modalBtbBasic"
                   type="button"
                   onClick={(e) => {
                     handleSubmit3(e);
                   }}
                 >
                   finish
-                </Button>
+                </button>
               </div>
             ) : (
               <></>

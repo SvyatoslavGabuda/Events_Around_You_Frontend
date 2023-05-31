@@ -1,15 +1,16 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import useAuth from "../../../../auth/hooks/useAuth";
+
 import { ToastContainer, toast } from "react-toastify";
-interface delComProps {
+import useAuth from "../../../auth/hooks/useAuth";
+interface delEvProps {
   show: boolean;
   setShow: (show: boolean) => void;
   idCom: number;
   updateF: any;
 }
-const DeleteComModal = ({ show, setShow, idCom, updateF }: delComProps) => {
+const DelEvModal = ({ show, setShow }: delEvProps) => {
   const { auth } = useAuth();
   const handleClose = () => {
     setShow(false);
@@ -26,7 +27,7 @@ const DeleteComModal = ({ show, setShow, idCom, updateF }: delComProps) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:8081/comments/" + idCom, {
+      const response = await fetch("http://localhost:8081/comments/", {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + auth.accessToken,
@@ -37,7 +38,7 @@ const DeleteComModal = ({ show, setShow, idCom, updateF }: delComProps) => {
         console.log("ok");
         handleClose();
         notifyOfSucess();
-        updateF();
+        // updateF();
       } else {
         console.log("not ok");
         notifyOfInsucess();
@@ -77,4 +78,4 @@ const DeleteComModal = ({ show, setShow, idCom, updateF }: delComProps) => {
     </>
   );
 };
-export default DeleteComModal;
+export default DelEvModal;

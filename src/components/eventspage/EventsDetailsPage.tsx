@@ -1,14 +1,17 @@
 import { useParams } from "react-router-dom";
 import { Ievento } from "../../interfaces/luoghiDiInteresseInt";
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { format } from "date-fns";
 import BingMapsReact from "../map/BingMapsReact";
 import "./eventPage.scss";
+import EventPageCard from "./evetnsPageComponents/eventPageCard/EventPageCard";
+import { getEventByID } from "../../app/slices/eventsSlices/eventByIdSlice";
 
 const EventsDetailsPage = () => {
   const params = useParams();
+  const dispatch = useAppDispatch();
   const event_Id = params.id;
   const evento: Ievento = useAppSelector((state) => state.eventByID.event);
 
@@ -18,7 +21,6 @@ const EventsDetailsPage = () => {
   const [mapReady, setMapReady] = useState(false);
   useEffect(() => {
     if (status === "idle") {
-      console.log("ciao");
       setEv(evento);
     }
   }, [evento]);
@@ -78,42 +80,15 @@ const EventsDetailsPage = () => {
       <Container>
         {ev?.creatore ? (
           <>
-            <Row className="dailsPage">
-              <Col xs={12} md={4} className="dailsPageImg">
-                <img src={ev?.urlImage} alt="immagine evento" />
-              </Col>
-              <Col xs={12} md={8} className="dailsPageText">
-                <div>
-                  <h3>{ev?.title}</h3>
-                  <h3>{ev?.subTitle}</h3>
-                </div>
-                <div>
-                  <p>
-                    <time className="">
-                      Inzio evento: <span> {format(new Date(ev?.startDate), "d-MMM-y hh:mm")}</span>
-                    </time>
-                  </p>
-                  <p>
-                    <time className="">
-                      Fine evento: <span>{format(new Date(ev?.endDate), "d-MMM-y hh:mm")}</span>
-                    </time>
-                  </p>
-                </div>
-                <p>{ev.description}</p>
-                <div>
-                  <p className="">
-                    Indirizzo:{" "}
-                    <span>
-                      {ev.indirizzzo.citta}, {ev.indirizzzo.via}, n° {ev.indirizzzo.civico}
-                    </span>
-                  </p>
-                  <p className="">
-                    numero massimo partecipanti: {ev.numMaxPartecipants} <br />
-                    <span>vai sul sito per avere più info</span>
-                  </p>
-                </div>
-              </Col>
-            </Row>
+            {ev?.creatore && (
+              <EventPageCard
+                ev={ev}
+                // updateF={() => {}}
+                updateF={() => {
+                  dispatch(getEventByID({ id_eve: ev.idLuogo }));
+                }}
+              />
+            )}
             <Row style={{ marginBottom: "100px" }}>
               {" "}
               <div className="map__container">

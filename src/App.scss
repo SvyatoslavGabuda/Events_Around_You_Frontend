@@ -1,5 +1,117 @@
-@import url("https://fonts.googleapis.com/css2?family=Monoton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Monoton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=MedievalSharp&family=Monoton&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 body {
   background: linear-gradient(56deg, rgba(255, 228, 181, 1) 28%, rgba(135, 206, 250, 1) 62%);
+}
+.basicBtn {
+  --text-base: 277deg, 55%, 40%;
+  --text-hover: 307deg, 72%, 86%;
+  --shadow-start: 52deg, 100%, 72%;
+  --shadow-end: 282deg, 90%, 50%;
+  --shadow-inner: 277deg, 90%, 62%;
+  all: unset;
+  color: black;
+  font-weight: 600;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 15px;
+  max-width: 100%;
+  width: 100px;
+  background-color: rgb(176, 33, 94, 0.5);
+  background-clip: padding-box;
+  // border: 2px solid hsla(var(--text-base), 1);
+  border-radius: 2em;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s ease-out;
+  box-shadow: 0px -0px 10px 8px rgba(0, 0, 0, 0.75);
+  &:not(:disabled)::before {
+    content: "";
+    border-radius: inherit;
+    transition: inherit;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    inset: -0.2em;
+    z-index: -1;
+    background: linear-gradient(hsla(var(--shadow-start), 1), hsla(var(--shadow-end), 1));
+    filter: blur(1.2em) saturate(1.2);
+    transform-origin: bottom;
+    transform: scaleY(0.5);
+    opacity: 0;
+  }
+  &:not(:disabled)::after {
+    content: "";
+    border-radius: inherit;
+    transition: inherit;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 1px #fff, 0 0 0 4px rgba(255, 255, 255, 0.7), 1px 1px 0 4px #fff;
+    mix-blend-mode: overlay;
+    opacity: 0;
+  }
+  &:not(:disabled):hover,
+  &:not(:disabled):focus {
+    color: hsla(var(--text-hover), 1);
+    border-color: transparent;
+    box-shadow: inset 0 1.4em 0 hsla(var(--shadow-inner), 0.1),
+      inset 0 0 1.4em hsla(var(--shadow-inner), 0.32), 0 1px 1px hsla(var(--shadow-inner), 0.32);
+  }
+  &:disabled {
+    background-color: gray;
+  }
+}
+
+.basicBtn:hover::before,
+.basicBtn:hover::after,
+.basicBtn:focus::before,
+.basicBtn:focus::after {
+  transform: none;
+  opacity: 1;
+}
+
+.modal-content {
+  background: linear-gradient(56deg, rgba(255, 228, 181, 1) 28%, rgba(135, 206, 250, 1) 62%);
+}
+
+.modalBtbBasic {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
+  margin: 4px 12px;
+  padding: 4px 8px;
+  background-color: rgb(148, 39, 126);
+  color: white;
+
+  &:hover {
+    color: #87cefa;
+    box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.75);
+  }
+}
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(0deg, rgb(84, 23, 72) 28%, rgb(148, 39, 126) 62%);
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgb(84, 23, 72) 28%, rgb(148, 39, 126) 62%);
+
+  border-radius: 4px;
 }

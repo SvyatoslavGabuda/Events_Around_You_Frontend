@@ -10,6 +10,7 @@ export default function BingMapsReact({
   pushPinsWithInfoboxes,
   viewOptions,
   width,
+  onChildClick,
 }) {
   // refs
   const mapContainer = useRef(null);
@@ -51,9 +52,10 @@ export default function BingMapsReact({
           visible: false,
         });
       });
-      Maps.Events.addHandler(infobox, "click", (e) => {
-        console.log(e.target._options.title);
-      });
+      // Maps.Events.addHandler(infobox, "click", (e) => {
+      //   console.log(e.target._options.title);
+      //   // onChildClick(e);
+      // });
       map.entities.push(newPin);
     });
   }, []);
@@ -133,6 +135,10 @@ export default function BingMapsReact({
       });
       infobox.setMap(map.current);
       addPushpinsWithInfoboxes(pushPinsWithInfoboxes, infobox, map.current, Maps);
+      Maps.Events.addHandler(infobox, "click", (e) => {
+        // console.log(e.target._options.title);
+        onChildClick(e);
+      });
     }
     onMapReady && onMapReady({ map });
   }, [
@@ -171,4 +177,7 @@ BingMapsReact.defaultProps = {
   pushPinsWithInfoboxes: null,
   viewOptions: null,
   width: "100%",
+  onChildClick: () => {
+    console.log("ciao mondo");
+  },
 };

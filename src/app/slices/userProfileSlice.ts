@@ -19,7 +19,7 @@ export interface params {
 export const userProfileFetch = createAsyncThunk(
   "User Profile Fetch",
   async ({ username, token }: params) => {
-    console.log(token);
+    // console.log(token);
 
     try {
       const response = await fetch(url + username, {
@@ -28,11 +28,12 @@ export const userProfileFetch = createAsyncThunk(
         headers: {
           Authorization: "Bearer " + token || "nonandra",
           "content-type": "application/json",
+          "Cache-Control": "no-store",
         },
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
 
         return data;
       } else {

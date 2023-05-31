@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import CommentoEventPage from "./CommentoEventPage";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import useAuth from "../../../../auth/hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { FcInfo } from "react-icons/fc";
 import { FaArrowCircleLeft } from "react-icons/fa";
@@ -25,14 +25,17 @@ interface evProps {
   updateF: any;
 }
 const EventPageCard = ({ ev, updateF }: evProps) => {
+  const params = useParams();
   const { auth } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const userProfile: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
   const userlikes: number[] = useAppSelector((state) => state.likeDaUtenu.userLikes);
-  const dispatch = useAppDispatch();
+  const [likesTotalNum, setLikesTotalNum] = useState<number>(ev.likeDaUtenti.length);
+  //stato modali commento
   const [showCommenti, setShowCommenti] = useState(false);
   const [addComment, setAddComment] = useState(false);
-
+  //dati modale per aggiungere un commento
   const [titoloCom, setTitoloCom] = useState<string>("");
   const [contenutoCom, setContenutoCom] = useState<string>("");
   const [raitingCom, setRaitingCom] = useState<string>("");
@@ -64,16 +67,14 @@ const EventPageCard = ({ ev, updateF }: evProps) => {
         setTitoloCom("");
         setRaitingCom("");
         setContenutoCom("");
+        setAddComment(false);
         updateF();
       }
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    console.log("effect like");
-    userProfile?.likes?.forEach((ev) => dispatch(userLikes(ev.idLuogo)));
-  }, []);
+
   return (
     <>
       <Row className="py-3 justify-content-center">
@@ -102,15 +103,17 @@ const EventPageCard = ({ ev, updateF }: evProps) => {
                 </p>
               </div>
               <div className="eventPageButtonContainer">
-                <button
-                  onClick={() => {
-                    navigate("/events/" + ev.idLuogo);
+                {!params.id && (
+                  <button
+                    onClick={() => {
+                      navigate("/events/" + ev.idLuogo);
 
-                    dispatch(getEventByID({ id_eve: ev.idLuogo }));
-                  }}
-                >
-                  <TbInfoSquareRounded style={{ fontSize: "1.3rem" }} />
-                </button>
+                      dispatch(getEventByID({ id_eve: ev.idLuogo }));
+                    }}
+                  >
+                    <TbInfoSquareRounded style={{ fontSize: "1.3rem" }} />
+                  </button>
+                )}
                 <button
                   onClick={() => {
                     setShowCommenti(!showCommenti);
@@ -129,10 +132,15 @@ const EventPageCard = ({ ev, updateF }: evProps) => {
                         })
                       );
                       dispatch(userLikes(ev.idLuogo));
+                      if (userlikes?.includes(ev.idLuogo)) {
+                        setLikesTotalNum(likesTotalNum - 1);
+                      } else {
+                        setLikesTotalNum(likesTotalNum + 1);
+                      }
                     }
                   }}
                 >
-                  {ev.likeDaUtenti.length}
+                  {likesTotalNum}
                   {
                     /* {ev.likeDaUtenti.find((u) => u.username === userProfile.username) || */
                     userlikes?.includes(ev.idLuogo) ? (

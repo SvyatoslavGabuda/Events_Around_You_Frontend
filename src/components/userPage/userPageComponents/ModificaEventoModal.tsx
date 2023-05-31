@@ -96,8 +96,11 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
-        console.log("evento modificato con sucesso");
+
+        if (auth.username && auth.accessToken) {
+          console.log("evento modificato con sucesso");
+          dispatch(userProfileFetch({ username: auth.username, token: auth.accessToken }));
+        }
       } else {
         console.log("errore");
       }
@@ -126,7 +129,10 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log("indirizzo modificato");
+        if (auth.username && auth.accessToken) {
+          console.log("indirizzo modificato");
+          dispatch(userProfileFetch({ username: auth.username, token: auth.accessToken }));
+        }
       } else {
         console.log("errore");
       }
@@ -149,8 +155,8 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
         },
       });
       if (response.ok) {
-        console.log("immagine caricata");
         if (auth.accessToken) {
+          console.log("immagine caricata");
           dispatch(userProfileFetch({ username: userProfile.username, token: auth.accessToken }));
         }
       } else {
@@ -168,7 +174,7 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
           <Modal.Title>Stai modificando: {ev.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>
+          <div className="btnModifica">
             <h5>cosa vuoi modificare?</h5>
             <button
               onClick={() => {
@@ -248,7 +254,9 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
                 <Form.Group className="mb-3">
                   <Form.Label>desciption</Form.Label>
                   <Form.Control
-                    type="text"
+                    as="textarea"
+                    maxLength={255}
+                    style={{ height: "120px" }}
                     placeholder="Enter email"
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
@@ -303,15 +311,15 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
                     </Form.Group>
                   </Col>
                 </Row>
-                <Button
-                  variant="primary"
+                <button
+                  className="modalBtbBasic"
                   type="button"
                   onClick={(e) => {
                     handleSubmit1(e);
                   }}
                 >
                   Salva
-                </Button>
+                </button>
               </div>
             ) : (
               <></>
@@ -364,15 +372,15 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
                     value={provincia}
                   />
                 </Form.Group>
-                <Button
-                  variant="primary"
+                <button
+                  className="modalBtbBasic"
                   type="button"
                   onClick={(e) => {
                     handleSubmit2(e);
                   }}
                 >
                   salva
-                </Button>
+                </button>
               </div>
             ) : (
               <></>
@@ -383,15 +391,15 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
                   <Form.Label>Load image</Form.Label>
                   <Form.Control type="file" placeholder="Enter email" onChange={handleChange} />
                 </Form.Group>
-                <Button
-                  variant="primary"
+                <button
+                  className="modalBtbBasic"
                   type="button"
                   onClick={(e) => {
                     handleSubmit3(e);
                   }}
                 >
                   salva
-                </Button>
+                </button>
               </div>
             ) : (
               <></>
@@ -399,7 +407,7 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button className="modalBtbBasic" variant="secondary" onClick={handleClose}>
             Close
           </Button>
         </Modal.Footer>

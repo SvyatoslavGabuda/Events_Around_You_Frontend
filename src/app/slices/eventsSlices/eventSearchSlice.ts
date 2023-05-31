@@ -7,6 +7,8 @@ export interface inputsValue {
   endDate: string;
   page: number;
   size: number;
+  sort: string;
+  dir: "ASC" | "DESC";
 }
 interface searchEv {
   status: "idle" | "loading" | "failed";
@@ -23,6 +25,8 @@ const initialState: searchEv = {
     endDate: "",
     page: 0,
     size: 5,
+    sort: "startDate",
+    dir: "ASC",
   },
 };
 export interface params {
@@ -79,6 +83,7 @@ export const eventSearch = createAsyncThunk(
           headers: {
             Authorization: "Bearer " + token,
             "content-type": "application/json",
+            "Cache-Control": "no-store",
           },
         }
       );

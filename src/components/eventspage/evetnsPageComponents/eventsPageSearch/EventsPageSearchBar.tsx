@@ -64,6 +64,8 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
             place: dove,
             size: size,
             title: titolo,
+            dir: dir,
+            sort: sort,
           })
         );
       } else if (
@@ -96,6 +98,8 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
             place: dove,
             size: size,
             title: titolo,
+            dir: dir,
+            sort: sort,
           })
         );
       } else {
@@ -141,6 +145,8 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
             place: dove,
             size: size,
             title: titolo,
+            dir: dir,
+            sort: sort,
           })
         );
       } else if (
@@ -173,6 +179,8 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
             place: dove,
             size: size,
             title: titolo,
+            dir: dir,
+            sort: sort,
           })
         );
       }
@@ -186,11 +194,11 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
           style={{ backgroundImage: "url(/assets/bg/audience.jpg)" }}
         >
           <Row className="justify-content-center align-items-center h-100">
-            <Col className="h-50">
+            <Col className="">
               <Form className="eventPageForm" onSubmit={handleSubmit}>
                 <Row>
                   {auth.accessToken && (
-                    <Col>
+                    <Col xs={12} md={6}>
                       <FloatingLabel label="Cosa ti interessa?" className="mb-3">
                         <Form.Control
                           type="text"
@@ -203,11 +211,12 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
                       </FloatingLabel>
                     </Col>
                   )}
-                  <Col>
+                  <Col xs={12} md={!auth.accessToken ? 12 : 6}>
                     <FloatingLabel label="Dove?" className="mb-3">
                       <Form.Control
                         type="text"
                         placeholder="Venezia"
+                        required
                         value={dove}
                         onChange={(e) => {
                           setDove(e.target.value);

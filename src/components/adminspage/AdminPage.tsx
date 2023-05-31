@@ -33,6 +33,49 @@ export interface CosaSegnalata {
   sponsored: boolean;
   tipoEvento: null;
 }
+export interface IloadSegnalazioni {
+  stato: boolean;
+  token: string;
+  setSegnalazioni: React.Dispatch<React.SetStateAction<Isegnalazioni[]>>;
+}
+export const loadSegnalazioni = async ({ stato, token, setSegnalazioni }: IloadSegnalazioni) => {
+  try {
+    const response = await fetch("http://localhost:8081/segnalazioni/archiviato/" + stato, {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      setSegnalazioni(data.content);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export interface IloadEventiBloccati {
+  token: string;
+  setEvB: React.Dispatch<React.SetStateAction<Ievento[]>>;
+}
+export const loadEventiBloccati = async ({ token, setEvB }: IloadEventiBloccati) => {
+  try {
+    const response = await fetch("http://localhost:8081/events/bloccati", {
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+      setEvB(data.content);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 const AdminPage = () => {
   const [segnalazioni, setSegnalazioni] = useState<Isegnalazioni[]>([]);
   const { auth } = useAuth();
@@ -40,50 +83,22 @@ const AdminPage = () => {
   const [showSegnalazioniArc, setShowSegnalazioniArc] = useState(false);
   const [showEvBloccati, setShowEvBloccati] = useState(false);
   const [evB, setEvB] = useState<Ievento[]>([]);
-  const loadSegnalazioni = async (stato: boolean) => {
-    try {
-      const response = await fetch("http://localhost:8081/segnalazioni/archiviato/" + stato, {
-        headers: {
-          Authorization: "Bearer " + auth.accessToken,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setSegnalazioni(data.content);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const loadEventiBloccati = async () => {
-    try {
-      const response = await fetch("http://localhost:8081/events/bloccati", {
-        headers: {
-          Authorization: "Bearer " + auth.accessToken,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setEvB(data.content);
-      }
-    } catch (error) {
-      console.log(error);
+
+  const handleEventiBloccati = async () => {
+    if (auth.accessToken) {
+      await loadEventiBloccati({ token: auth.accessToken, setEvB: setEvB });
     }
   };
   useEffect(() => {
-    // loadEventiBloccati();
-    // loadSegnalazioni(true);
-    loadSegnalazioni(false);
+    if (auth.accessToken) {
+      loadSegnalazioni({ stato: false, token: auth.accessToken, setSegnalazioni: setSegnalazioni });
+    }
   }, []);
   return (
     <>
       <Container style={{ minHeight: "80vh" }}>
         <Row>
-          <Nav fill variant="tabs" defaultActiveKey="link-1">
+          <Nav fill variant="tabs" defaultActiveKey="link-1" className="navAdmin">
             <Nav.Item>
               <Nav.Link
                 eventKey="link-1"
@@ -91,7 +106,13 @@ const AdminPage = () => {
                   setShowSegnalazioni(true);
                   setShowSegnalazioniArc(false);
                   setShowEvBloccati(false);
-                  loadSegnalazioni(false);
+                  if (auth.accessToken) {
+                    loadSegnalazioni({
+                      stato: false,
+                      token: auth.accessToken,
+                      setSegnalazioni: setSegnalazioni,
+                    });
+                  }
                 }}
               >
                 Segnalazioni
@@ -104,7 +125,13 @@ const AdminPage = () => {
                   setShowSegnalazioni(false);
                   setShowSegnalazioniArc(true);
                   setShowEvBloccati(false);
-                  loadSegnalazioni(true);
+                  if (auth.accessToken) {
+                    loadSegnalazioni({
+                      stato: true,
+                      token: auth.accessToken,
+                      setSegnalazioni: setSegnalazioni,
+                    });
+                  }
                 }}
               >
                 Segnalazioni Archiviate
@@ -117,7 +144,7 @@ const AdminPage = () => {
                   setShowSegnalazioni(false);
                   setShowSegnalazioniArc(false);
                   setShowEvBloccati(true);
-                  loadEventiBloccati();
+                  handleEventiBloccati();
                 }}
               >
                 Eventi Bloccati
@@ -134,7 +161,11 @@ const AdminPage = () => {
             <Row>
               {segnalazioni?.length > 0 ? (
                 segnalazioni.map((s: Isegnalazioni) => (
-                  <Segnalazione key={s.id_segnalazione + "segnalazione"} segnalazione={s} />
+                  <Segnalazione
+                    key={s.id_segnalazione + "segnalazione"}
+                    segnalazione={s}
+                    setSegnalazioni={setSegnalazioni}
+                  />
                 ))
               ) : (
                 <></>
@@ -152,7 +183,11 @@ const AdminPage = () => {
             <Row>
               {segnalazioni?.length > 0 ? (
                 segnalazioni.map((s: Isegnalazioni) => (
-                  <Segnalazione key={s.id_segnalazione + "segnalazione"} segnalazione={s} />
+                  <Segnalazione
+                    key={s.id_segnalazione + "segnalazione"}
+                    segnalazione={s}
+                    setSegnalazioni={setSegnalazioni}
+                  />
                 ))
               ) : (
                 <>
@@ -171,7 +206,7 @@ const AdminPage = () => {
             </Row>
             <Row className="row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 m-0 justify-content-center w-100">
               {evB?.length > 0 ? (
-                evB.map((ev) => <EventCardBloccati ev={ev} />)
+                evB.map((ev) => <EventCardBloccati ev={ev} setEvB={setEvB} />)
               ) : (
                 <>
                   <p>non ci sono eventi bloccati</p>

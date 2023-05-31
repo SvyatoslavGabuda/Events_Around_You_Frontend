@@ -17,19 +17,52 @@
     @media (max-width: 576px) {
       height: 350px;
     }
+    .cavalieri {
+      grid-column-start: 3;
+      grid-column-end: 4;
+      grid-row-start: 1;
+      grid-row-end: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: "MedievalSharp", cursive;
+      font-weight: 800;
+      font-size: 2rem;
+      text-align: center;
+    }
+    .linkTosite {
+      grid-column-start: 3;
+      grid-column-end: 4;
+      grid-row-start: 5;
+      grid-row-end: 6;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: "MedievalSharp", cursive;
+      font-weight: 800;
+      p {
+        text-align: center;
+        margin: 0;
+      }
+    }
     .trapezio1Wrapper {
       grid-column-start: 1;
       grid-column-end: 3;
       grid-row-start: 1;
       grid-row-end: 3;
       filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.75));
+      &:hover {
+        z-index: 5;
+      }
       .trapezio1 {
         height: 100%;
         clip-path: polygon(0 0, 100% 0%, 50% 100%, 0% 100%);
         transition: 1s linear all;
         transform: scale(1.1);
         &:hover {
-          clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
         }
         img {
           height: 100%;
@@ -47,13 +80,16 @@
       grid-row-end: 6;
 
       filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.75));
+      &:hover {
+        z-index: 5;
+      }
       .trapezio2 {
         height: 100%;
         clip-path: polygon(0 0, 50% 0, 100% 100%, 0% 100%);
         transition: 1s linear all;
         transform: scale(1.1);
         &:hover {
-          clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
         }
         img {
           height: 100%;
@@ -70,13 +106,16 @@
       grid-row-start: 1;
       grid-row-end: 3;
       filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.75));
+      &:hover {
+        z-index: 5;
+      }
       .trapezio3 {
         height: 100%;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%);
         transition: 1s linear all;
         transform: scale(1.1);
         &:hover {
-          clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
         }
         img {
           height: 100%;
@@ -93,20 +132,22 @@
       grid-row-start: 4;
       grid-row-end: 6;
       filter: drop-shadow(0px 0px 15px rgba(0, 0, 0, 0.5));
+      &:hover {
+        z-index: 5;
+      }
       .trapezio4 {
         height: 100%;
         clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%);
         transition: 1s linear all;
         transform: scale(1.1);
         &:hover {
-          clip-path: polygon(0 100%, 0 0, 100% 0, 100% 100%);
+          clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
         }
         img {
           height: 100%;
           object-fit: cover;
           object-position: center;
           width: 100%;
-          z-index: 2;
         }
       }
     }
@@ -122,7 +163,7 @@
       clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
       transition: 1s linear all;
       &:hover {
-        clip-path: polygon(0 2%, 100% 0, 100% 23%, 100% 100%, 0 100%, 0 72%);
+        clip-path: polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 0% 50%);
       }
       img {
         height: 100%;

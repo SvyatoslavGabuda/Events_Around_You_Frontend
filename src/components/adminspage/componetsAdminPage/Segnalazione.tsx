@@ -1,5 +1,5 @@
 import { Col, Row } from "react-bootstrap";
-import { Isegnalazioni } from "../AdminPage";
+import { Isegnalazioni, loadSegnalazioni } from "../AdminPage";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../app/hooks";
 import { getEventByID } from "../../../app/slices/eventsSlices/eventByIdSlice";
@@ -8,49 +8,73 @@ import { userProfileByIDFetch } from "../../../app/slices/userProfileByIdSlice";
 
 interface propsSeg {
   segnalazione: Isegnalazioni;
+  setSegnalazioni: React.Dispatch<React.SetStateAction<Isegnalazioni[]>>;
 }
-const Segnalazione = ({ segnalazione }: propsSeg) => {
+export interface IarchiviaSegnalazione {
+  id: number;
+  token: string;
+}
+export const archiviaSegnalazione = async ({ id, token }: IarchiviaSegnalazione) => {
+  try {
+    const response = await fetch("http://localhost:8081/segnalazioni/stato/" + id, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      console.log("segnalazione archiviata");
+    } else {
+      console.log("si è verificato un errore");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export interface IbloccaEvento {
+  idEv: number;
+  token: string;
+}
+export const bloccaEvento = async ({ idEv, token }: IbloccaEvento) => {
+  try {
+    const response = await fetch("http://localhost:8081/events/blocc/" + idEv, {
+      method: "PUT",
+      headers: {
+        Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.ok) {
+      console.log("evento bloccato");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+const Segnalazione = ({ segnalazione, setSegnalazioni }: propsSeg) => {
   const { auth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const archiviaSegnalazione = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:8081/segnalazioni/stato/" + segnalazione.id_segnalazione,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: "Bearer " + auth.accessToken,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.ok) {
-        console.log("segnalazione archiviata");
-      } else {
-        console.log("si è verificato un errore");
-      }
-    } catch (error) {
-      console.log(error);
+  const handleArchivaSegnalazione = async () => {
+    if (auth.accessToken) {
+      await archiviaSegnalazione({ id: segnalazione.id_segnalazione, token: auth.accessToken });
+      loadSegnalazioni({
+        stato: segnalazione.archiviato,
+        token: auth.accessToken,
+        setSegnalazioni: setSegnalazioni,
+      });
     }
   };
-  const bloccaEvento = async () => {
-    try {
-      const response = await fetch(
-        "http://localhost:8081/events/blocc/" + segnalazione.cosaSegnalata.idLuogo,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: "Bearer " + auth.accessToken,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.ok) {
-        console.log("evento bloccato");
-      }
-    } catch (error) {
-      console.log(error);
+
+  const handleBloccaEvento = async () => {
+    if (auth.accessToken) {
+      await bloccaEvento({ idEv: segnalazione.cosaSegnalata.idLuogo, token: auth.accessToken });
+      loadSegnalazioni({
+        stato: segnalazione.archiviato,
+        token: auth.accessToken,
+        setSegnalazioni: setSegnalazioni,
+      });
     }
   };
   return (
@@ -93,10 +117,10 @@ const Segnalazione = ({ segnalazione }: propsSeg) => {
           >
             vai all utente
           </button>
-          <button onClick={archiviaSegnalazione}>
+          <button onClick={handleArchivaSegnalazione}>
             {segnalazione.archiviato ? "Riprendi in esame" : "archivia"}
           </button>
-          <button onClick={bloccaEvento}>
+          <button onClick={handleBloccaEvento}>
             {segnalazione.cosaSegnalata.bloccato ? "sblocca evento" : "blocca evento"}
           </button>
         </div>

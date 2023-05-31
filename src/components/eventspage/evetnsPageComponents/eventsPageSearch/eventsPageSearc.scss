@@ -6,7 +6,9 @@
   padding: 20px 20px;
   margin: 20px 0;
   box-shadow: 10px 10px 9px 4px rgba(0, 0, 0, 0.75);
-
+  @media (max-width: 768px) {
+    height: 380px;
+  }
   .eventPageForm {
     // margin: 30px;
     .form-control {

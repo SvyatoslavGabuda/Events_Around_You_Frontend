@@ -66,14 +66,15 @@ const UploadUserProfileImage = ({ show, setShow }: modalProps) => {
             {/* <button type="submit">Upload</button> */}
           </Modal.Body>
           <Modal.Footer>
-            <Button
+            <button
+              className="modalBtbBasic"
               type="submit"
               onClick={() => {
                 handleClose();
               }}
             >
               Save Changes
-            </Button>
+            </button>
           </Modal.Footer>
         </form>
       </Modal>

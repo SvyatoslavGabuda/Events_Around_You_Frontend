@@ -34,6 +34,13 @@ const OurSponsor = () => {
               <img src="/assets/ranaan/sfondo_17.jpg" alt="" />
             </div>
           </div>
+          <div className="linkTosite">
+            <p>Ottieni più informazioni</p>
+            <a href="https://www.ranaan.it/">www.rannan.it</a>
+          </div>
+          <div className="cavalieri">
+            <p>Cavalieri Di Ranaan</p>
+          </div>
         </div>
       </Row>
     </>
