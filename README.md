@@ -45,7 +45,7 @@ Please refer to the Bing Maps documentation for more information on using the Bi
 To install and run the project locally, follow these steps:
 
 1. Clone the repository:
-   - Replace `your-username` with your GitHub username or provide the appropriate URL to clone the repository.
+   - git clone https://github.com/SvyatoslavGabuda/events-around-you
 
 2. Navigate to the project directory:
    - Use the command line to navigate to the project directory.
@@ -59,6 +59,7 @@ In the project directory, you can run the following scripts:
 - npm build: Builds the app for production.
 - npm test: Runs the test suites.
 - npm eject: Ejects the app from Create React App.
+
 Please note that you should avoid running the eject script unless you are familiar with the underlying configuration.
 ## License
 This project is licensed under the MIT License. You can find more information in the LICENSE file.
