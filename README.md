@@ -1,3 +1,28 @@
+# Events Around You - FrontEnd
+
+This is the repository for the backend of the "Events Around You" application, an application for managing events in the vicinity.
+
+## Technologies Used
+
+The FrontEnd has been developed using TypeScript and React as framework. The main technologies used include:
+
+-React
+- TypeScript
+- Redux
+- React Router DOM
+- Bootstrap
+- Sass
+- Date-fns
+- React Icons
+- React Toastify
+- Redux Persist
+- Redux Persist Transform Encrypt
+
+## External API
+This project utilizes The Bing Maps V8 Map Control SDK as an external API to implement maps. To use this API, you will need to obtain an API key from Bing Maps. The API key should be added to the application's configuration file or stored securely on the server-side.
+
+Please refer to the Bing Maps documentation for more information on using the Bing Maps V8 Map Control SDK.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
