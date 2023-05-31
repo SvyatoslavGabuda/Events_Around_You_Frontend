@@ -6,7 +6,7 @@ This is the repository for the backend of the "Events Around You" application, a
 
 The FrontEnd has been developed using TypeScript and React as framework. The main technologies used include:
 
--React
+- React
 - TypeScript
 - Redux
 - React Router DOM
