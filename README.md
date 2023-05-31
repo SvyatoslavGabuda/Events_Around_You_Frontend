@@ -2,6 +2,14 @@
 
 Events Around You is a web application that allows users to discover and explore events happening around them or in the places they plan to visit. With a user-friendly interface and powerful search capabilities, users can easily find events based on location, interests, date, and more. Additionally, the application enables users to create and share their own events, fostering a vibrant community of event organizers and attendees.
  <a href="https://github.com/SvyatoslavGabuda/EventsAroudYou"><strong>BackEnd Repository »</strong></a>
+ 
+#I have implemented the following functionalities based on authentication:
+- For non-registered users, the possibility to view all "sponsored" events in a specific area, with the option to see more information about the event and its location on the map.
+- Registered users can view all sponsored and non-sponsored events and filter them by event type, date, and location. They can view the search results on an interactive map or in a list.
+- Registered users can like, comment on, and report events.
+- Registered users can create and manage their own events.
+- Administrators can view user-reported issues, archive them, view user profiles, and block/unblock or delete inappropriate events.
+
 
 ## Technologies Used
 
