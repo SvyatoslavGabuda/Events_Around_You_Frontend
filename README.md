@@ -10,8 +10,9 @@ Events Around You is a web application that allows users to discover and explore
 - Registered users can create and manage their own events.
 - Administrators can view user-reported issues, archive them, view user profiles, and block/unblock or delete inappropriate events.
 
-<small>Le immagini utilizzate sono di pubblico dominio (scaricate Freepik, Pixabay e Pexels)</small>
 ![image](https://github.com/SvyatoslavGabuda/events-around-you/blob/master/public/assets/mainPageEAY.jpg)
+
+<small>The images used are in the public domain (downloaded from Freepik, Pixabay, and Pexels).</small>
 
 ## Technologies Used
 
