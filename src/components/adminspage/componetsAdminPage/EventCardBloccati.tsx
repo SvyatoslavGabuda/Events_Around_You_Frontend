@@ -36,8 +36,12 @@ const EventCardBloccati = ({ ev, setEvB }: props) => {
           <p>creato da : {ev.creatore.username}</p>
         </div>
         <div>
-          <button onClick={handleEliminaEvento}>elimina</button>
-          <button onClick={handleBloccaEvento}>Sblocca</button>
+          <button className="modalBtbBasic" onClick={handleEliminaEvento}>
+            elimina
+          </button>
+          <button className="modalBtbBasic" onClick={handleBloccaEvento}>
+            Sblocca
+          </button>
         </div>
       </Col>
     </>
