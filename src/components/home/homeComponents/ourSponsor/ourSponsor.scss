@@ -30,6 +30,12 @@
       font-weight: 800;
       font-size: 2rem;
       text-align: center;
+      @media (max-width: 992px) {
+        font-size: 1.5rem;
+      }
+      @media (max-width: 576px) {
+        font-size: 1rem;
+      }
     }
     .linkTosite {
       grid-column-start: 3;

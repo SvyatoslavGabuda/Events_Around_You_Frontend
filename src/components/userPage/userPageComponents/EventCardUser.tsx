@@ -9,6 +9,8 @@ import { getEventByID } from "../../../app/slices/eventsSlices/eventByIdSlice";
 import { useState } from "react";
 import ModificaEventoModal from "./ModificaEventoModal";
 import { userProfileFetch } from "../../../app/slices/userProfileSlice";
+import { ToastContainer, toast } from "react-toastify";
+import DelEvModal from "./DelEvModal";
 interface evProps {
   ev: Ievento;
 }
@@ -18,6 +20,14 @@ export interface IEliminaEvento {
   username: string;
 }
 export const eliminaEvento = async ({ idEv, token, username }: IEliminaEvento) => {
+  const notifyOfSucess = () =>
+    toast.info("Evento Eliminato", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
+  const notifyOfInsucess = () =>
+    toast.warn("Opss.. qualcosa è andato storto..", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
   try {
     const response = await fetch("http://localhost:8081/events/" + idEv, {
       method: "DELETE",
@@ -29,12 +39,16 @@ export const eliminaEvento = async ({ idEv, token, username }: IEliminaEvento) =
     if (response.ok) {
       if (username && token) {
         console.log("evento eliminato");
+        notifyOfSucess();
 
-        userProfileFetch({ username: username, token: token });
+        // userProfileFetch({ username: username, token: token });
+      } else {
+        notifyOfInsucess();
       }
     }
   } catch (error) {
     console.log(error);
+    notifyOfInsucess();
   }
 };
 const EventCardUser = ({ ev }: evProps) => {
@@ -42,11 +56,12 @@ const EventCardUser = ({ ev }: evProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
-  const handleEliminaEvento = async () => {
-    if (auth.username && auth.accessToken) {
-      eliminaEvento({ idEv: ev.idLuogo, token: auth.accessToken, username: auth.username });
-    }
-  };
+  const [showDelet, setShowDelet] = useState(false);
+  // const handleEliminaEvento = async () => {
+  //   if (auth.username && auth.accessToken) {
+  //     eliminaEvento({ idEv: ev.idLuogo, token: auth.accessToken, username: auth.username });
+  //   }
+  // };
 
   const sponsorizzaEvento = async (id: string) => {
     try {
@@ -125,17 +140,27 @@ const EventCardUser = ({ ev }: evProps) => {
           <ModificaEventoModal show={show} setShow={setShow} ev={ev} />
           <button
             onClick={() => {
-              handleEliminaEvento();
+              setShowDelet(true);
             }}
           >
             elimina
           </button>
+          {auth.accessToken && auth.username && (
+            <DelEvModal
+              show={showDelet}
+              setShow={setShowDelet}
+              idEv={ev.idLuogo}
+              token={auth.accessToken}
+              username={auth.username}
+            />
+          )}
         </div>
         {ev.bloccato && (
           <div className="eventoBloccato">
             <p>questo evento è stato bloccato</p>
           </div>
         )}
+        <ToastContainer />
       </Col>
     </>
   );

@@ -62,7 +62,7 @@ const UserPage = () => {
                   <img src={userProfile?.urlImmagineProfilo} alt="profile pic" />
                 ) : (
                   <img
-                    src="https://placehold.co/600x400"
+                    src="https://placehold.co/400x600"
                     alt="profile pic"
                     className="profilePic"
                   />

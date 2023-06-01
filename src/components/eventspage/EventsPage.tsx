@@ -109,6 +109,7 @@ const EventsPage = () => {
         {icon}
       </>
     );
+    // setPage(0);
     setSort(field);
     setDir(order);
   };
@@ -210,6 +211,9 @@ const EventsPage = () => {
                     className="formSelect"
                     onChange={(e) => {
                       setSize(Number(e.target.value));
+                      setPage(0);
+                      setNextStatus(false);
+                      setPrevStatus(true);
                     }}
                   >
                     {/* <option>number of el</option> */}
