@@ -17,7 +17,7 @@ export const getEventByID = createAsyncThunk("fetch by id", async ({ id_eve }: p
     const response = await fetch(url + id_eve, { headers: { "Cache-Control": "no-store" } });
     if (response.ok) {
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       return data;
     } else {
       console.log("non ha funzionato");

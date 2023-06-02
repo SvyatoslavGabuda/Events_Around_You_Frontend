@@ -99,7 +99,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         setEventoSalvato(data);
         setShow1(false);
         setShow2(true);
@@ -153,7 +153,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
         },
       });
       if (response.ok) {
-        console.log("immagine caricata");
+        // console.log("immagine caricata");
         handleClose();
         setShow1(true);
         setShow3(false);

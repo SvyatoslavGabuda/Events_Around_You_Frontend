@@ -52,7 +52,7 @@ export const sponsoredEvFetchbyCity = createAsyncThunk(
       if (response.ok) {
         const data = await response.json();
 
-        console.log(data);
+        // console.log(data);
         return data;
       } else {
         console.log("non ha funzionato");

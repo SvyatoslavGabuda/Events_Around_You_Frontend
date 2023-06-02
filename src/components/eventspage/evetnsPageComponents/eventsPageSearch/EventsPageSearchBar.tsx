@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import {
   eventSearch,
+  inputsValue,
   saveInputsValues,
 } from "../../../../app/slices/eventsSlices/eventSearchSlice";
 import { sponsoredEvFetchbyCity } from "../../../../app/slices/eventsSlices/sponsoredEventsByCitta";
@@ -26,6 +27,7 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
   const { auth } = useAuth();
   const dispatch = useAppDispatch();
   const savedCity = useAppSelector((state) => state.sponsoredEvByCitta.citta);
+  const evSerachInputValues: inputsValue = useAppSelector((state) => state.eventSearch.inputsValue);
   const [titolo, setTitolo] = useState<string>("");
   const [dove, setDove] = useState<string>("");
   const [dataS, setDataS] = useState<Date | null>(null);
@@ -42,7 +44,6 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
         (dataS === null || isNaN(dataS.getTime()) || dataF === null || isNaN(dataF.getTime())) &&
         dove !== ""
       ) {
-        console.log("livello 1 caso 1");
         dispatch(
           eventSearch({
             token: auth.accessToken,
@@ -74,8 +75,6 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
         !isNaN(dataS.getTime()) &&
         !isNaN(dataF.getTime())
       ) {
-        console.log("livello 1 caso 2");
-        console.log(dataS);
         dispatch(
           eventSearch({
             token: auth.accessToken,
@@ -103,7 +102,6 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
           })
         );
       } else {
-        console.log("qualcosa non va");
         notify();
       }
     } else {
@@ -116,14 +114,22 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
     if (savedCity !== "") {
       setDove(savedCity);
     }
-  }, []);
+    if (evSerachInputValues.place !== "") {
+      setDove(evSerachInputValues.place);
+      setTitolo(evSerachInputValues.title);
+
+      if (evSerachInputValues.startDate !== "" && evSerachInputValues.endDate !== "") {
+        setDataS(new Date(evSerachInputValues.startDate));
+        setDataF(new Date(evSerachInputValues.endDate));
+      }
+    }
+  }, [evSerachInputValues]);
   useEffect(() => {
     if (auth.accessToken) {
       if (
         (dataS === null || isNaN(dataS.getTime()) || dataF === null || isNaN(dataF.getTime())) &&
         dove !== ""
       ) {
-        console.log("livello 1 caso 1");
         dispatch(
           eventSearch({
             token: auth.accessToken,
@@ -155,8 +161,6 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
         !isNaN(dataS.getTime()) &&
         !isNaN(dataF.getTime())
       ) {
-        console.log("livello 1 caso 2");
-        console.log(dataS);
         dispatch(
           eventSearch({
             token: auth.accessToken,
@@ -233,6 +237,11 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
                         <Form.Control
                           type="date"
                           placeholder="data"
+                          value={
+                            dataS && !isNaN(dataS.getTime())
+                              ? dataS.toISOString().split("T")[0]
+                              : ""
+                          }
                           onChange={(e) => {
                             setDataS(new Date(e.target.value));
                           }}
@@ -245,6 +254,11 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
                         <Form.Control
                           type="date"
                           placeholder="data"
+                          value={
+                            dataF && !isNaN(dataF.getTime())
+                              ? dataF.toISOString().split("T")[0]
+                              : ""
+                          }
                           onChange={(e) => {
                             setDataF(new Date(e.target.value));
                           }}
@@ -254,7 +268,6 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
                   </Row>
                 ) : (
                   <>
-                    {" "}
                     <Row>
                       <Col className="d-flex justify-content-center">
                         <p className="warningMessage">

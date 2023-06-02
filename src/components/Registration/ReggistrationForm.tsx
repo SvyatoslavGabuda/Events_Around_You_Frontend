@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { FcCheckmark } from "react-icons/fc";
+import { TiTimes } from "react-icons/ti";
+import { ToastContainer, toast } from "react-toastify";
+import { FaCheck } from "react-icons/fa";
+
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{2,24}$/;
 const ReggistrationForm = () => {
@@ -26,6 +31,14 @@ const ReggistrationForm = () => {
   const [matchFocus, setMatchFocus] = useState(false);
 
   const [inputCheked, setInputCheked] = useState(false);
+  const notifyOfInsucess = (testo: string) =>
+    toast.error(testo, {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  const notifyOfSucces = (testo: string) =>
+    toast.info(testo, {
+      position: toast.POSITION.TOP_CENTER,
+    });
 
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
@@ -63,13 +76,20 @@ const ReggistrationForm = () => {
         },
       });
       if (response.ok) {
-        console.log("tutto apposto");
+        // console.log("tutto apposto");
+        notifyOfSucces("La reggistrazione è andata a buon fine");
         navigate("/login");
       } else {
-        console.log("qualcosa è andato storoto");
+        // console.log("qualcosa è andato storoto");
+        const errorData = await response.json();
+        // console.log({ errorData });
+        const message = errorData.message;
+        // console.error(message);
+        notifyOfInsucess(message);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      notifyOfInsucess("Opss.. Si è verificato un problema grave, riprova più tardi..");
     }
   };
   return (
@@ -132,7 +152,14 @@ const ReggistrationForm = () => {
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label>Password</Form.Label>
+                <Form.Label>
+                  Password{" "}
+                  <FaCheck style={{ color: "green" }} className={validPwd ? "" : "d-none"} />
+                  <TiTimes
+                    style={{ color: "red" }}
+                    className={validPwd || !pwd ? "d-none" : ""}
+                  />{" "}
+                </Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Password"
@@ -144,7 +171,7 @@ const ReggistrationForm = () => {
                 />
 
                 <Form.Text className={pwdFocus && !validPwd ? "text-muted" : "d-none"}>
-                  2 to 24 characters.
+                  4 to 24 characters.
                   <br />
                   Must include uppercase and lowercase letters, a number and a special character.
                   <br />
@@ -154,7 +181,21 @@ const ReggistrationForm = () => {
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Confirm Password</Form.Label>
+                <Form.Label>
+                  Confirm Password{" "}
+                  <FaCheck style={{ color: "green" }} className={validMatch ? "" : "d-none"} />
+                  <TiTimes
+                    style={{ color: "red" }}
+                    className={validMatch || !matchPwd ? "d-none" : ""}
+                  />{" "}
+                  {!validMatch ? (
+                    <span className="text-muted">
+                      Attenzione le password inserite non corrispondono
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </Form.Label>
                 <Form.Control
                   type="password"
                   placeholder="Password"
@@ -175,7 +216,6 @@ const ReggistrationForm = () => {
                   type="checkbox"
                   label="I agree with term and policy"
                   onChange={(e) => setInputCheked(!inputCheked)}
-                  //onClick={(e) => setInputCheked(!inputCheked)}
                   checked={inputCheked}
                 />
               </Form.Group>
@@ -189,6 +229,7 @@ const ReggistrationForm = () => {
                 </button>
               </div>
             </Form>
+            <ToastContainer />
           </Col>
         </Row>
       </Container>

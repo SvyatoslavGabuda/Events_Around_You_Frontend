@@ -17,6 +17,7 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
   MdOutlineKeyboardDoubleArrowLeft,
 } from "react-icons/md";
+import { FcInfo } from "react-icons/fc";
 import { GrMapLocation } from "react-icons/gr";
 import { userLikes } from "../../app/slices/eventsSlices/eventLikeSlice";
 
@@ -157,6 +158,13 @@ const EventsPage = () => {
           </>
         )}
 
+        {eventiTrovati?.length === 0 ? (
+          <p className="warningMessage">
+            <FcInfo /> Purtoppo non abbiamo trovato nessun evento corrispondente alla tua ricerca
+          </p>
+        ) : (
+          <></>
+        )}
         {eventiTrovati?.length > 0 && auth?.username ? (
           <>
             <Row>

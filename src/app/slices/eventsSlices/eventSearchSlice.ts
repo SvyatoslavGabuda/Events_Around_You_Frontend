@@ -48,7 +48,6 @@ export const eventSearch = createAsyncThunk(
   async ({ page, size, city, token, startDate, endDate, title, sort, dir }: params) => {
     try {
       if (city !== "" && title !== "" && startDate !== "" && endDate !== "") {
-        console.log("caso 1");
         newUrl =
           url +
           "/events/search/title?titolo=" +
@@ -60,10 +59,8 @@ export const eventSearch = createAsyncThunk(
           "&endDate=" +
           endDate;
       } else if (city !== "" && title !== "" && (startDate === "" || endDate === "")) {
-        console.log("caso 2");
         newUrl = url + "/events/search/citta/titolo?cittaProvincia=" + city + "&titolo=" + title;
       } else if (city !== "" && title === "" && (startDate !== "" || endDate !== "")) {
-        console.log("caso 3");
         newUrl =
           url +
           "/events/search/citta/data?cittaProvincia=" +
@@ -73,7 +70,6 @@ export const eventSearch = createAsyncThunk(
           "&endDate=" +
           endDate;
       } else {
-        console.log("caso 4");
         newUrl = url + "/events/search/citta?cittaProvincia=" + city;
       }
       // console.log(page, size, city, token);
@@ -89,7 +85,6 @@ export const eventSearch = createAsyncThunk(
       );
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
 
         return data;
       } else {

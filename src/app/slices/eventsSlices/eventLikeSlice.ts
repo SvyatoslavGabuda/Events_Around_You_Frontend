@@ -26,7 +26,7 @@ export const likeEvFetch = createAsyncThunk(
         },
       });
       if (response.ok) {
-        console.log("like ok");
+        // console.log("like ok");
       } else {
         console.log("non ha funzionato");
       }

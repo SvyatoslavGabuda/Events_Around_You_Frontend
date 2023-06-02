@@ -98,7 +98,7 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
         const data = await response.json();
 
         if (auth.username && auth.accessToken) {
-          console.log("evento modificato con sucesso");
+          // console.log("evento modificato con sucesso");
           dispatch(userProfileFetch({ username: auth.username, token: auth.accessToken }));
         }
       } else {
@@ -130,7 +130,7 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
       if (response.ok) {
         const data = await response.json();
         if (auth.username && auth.accessToken) {
-          console.log("indirizzo modificato");
+          // console.log("indirizzo modificato");
           dispatch(userProfileFetch({ username: auth.username, token: auth.accessToken }));
         }
       } else {
@@ -156,7 +156,7 @@ const ModificaEventoModal = ({ show, setShow, ev }: mododalProps) => {
       });
       if (response.ok) {
         if (auth.accessToken) {
-          console.log("immagine caricata");
+          // console.log("immagine caricata");
           dispatch(userProfileFetch({ username: userProfile.username, token: auth.accessToken }));
         }
       } else {

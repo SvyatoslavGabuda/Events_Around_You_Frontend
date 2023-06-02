@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { Ifetch } from "../../app/slices/eventsSlices/sponsoredEventsByCitta";
 
 import EventCard from "../home/homeComponents/eventCard/EventCard";
+import EventsPageSearchBar from "./evetnsPageComponents/eventsPageSearch/EventsPageSearchBar";
 
 const EventsMapPage = () => {
   const evSerachGeneral: Ifetch = useAppSelector((state) => state.eventSearch.events);
@@ -20,7 +21,7 @@ const EventsMapPage = () => {
     if (status === "idle" && evSerachGeneral.content.length > 0) {
       const pins: any = [];
 
-      console.log(evSerachGeneral.content);
+      // console.log(evSerachGeneral.content);
       evSerachGeneral.content.forEach((ev) => {
         const pin = {
           center: {
@@ -52,14 +53,19 @@ const EventsMapPage = () => {
   };
 
   useEffect(() => {
-    console.log(mapReady);
+    // console.log(mapReady);
     if (mapReady) {
       addPushPin();
     }
-  }, [mapReady]);
+  }, [mapReady, evSerachGeneral]);
 
   return (
     <>
+      <Container>
+        <Row>
+          <EventsPageSearchBar size={100} sort={"startDate"} dir={"ASC"} page={0} />
+        </Row>
+      </Container>
       <Container className="eventsMapPageCont">
         {evSerachGeneral?.content?.length > 0 && (
           <Row>
