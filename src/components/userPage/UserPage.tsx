@@ -26,6 +26,7 @@ const UserPage = () => {
   const userProfile2: IuserProfile = useAppSelector((state) => state.userProfileById.userLogged);
   const [show, setShow] = useState(false);
   const [showMEv, setShowMEv] = useState(false);
+  const [showComm, setShowComm] = useState(false);
 
   const handleShow = () => setShow(true);
   const handleShowEv = () => setShowMEv(true);
@@ -111,18 +112,27 @@ const UserPage = () => {
               </p>
             </Col>
           </Row>
-          <Row className="commentContainer">
-            <h4>I tuoi commenti:</h4>
-            {userProfile?.commenti?.length > 0 ? (
-              userProfile.commenti.map((com) => (
-                <UserPageSingleComment commento={com} key={com.idCommento + "comento"} />
-              ))
-            ) : (
-              <>
-                <p>non hai nessun commento! </p>
-              </>
-            )}
+          <Row>
+            <Col className="mt-3 ms-3">
+              <button className="creaEvento" onClick={() => setShowComm(!showComm)}>
+                {!showComm ? "Vedi i tuoi commenti" : "Nascondi i tuoi commenti"}
+              </button>
+            </Col>
           </Row>
+          {showComm && (
+            <Row className="commentContainer">
+              <h4>I tuoi commenti:</h4>
+              {userProfile?.commenti?.length > 0 ? (
+                userProfile.commenti.map((com) => (
+                  <UserPageSingleComment commento={com} key={com.idCommento + "comento"} />
+                ))
+              ) : (
+                <>
+                  <p>non hai nessun commento! </p>
+                </>
+              )}
+            </Row>
+          )}
           <Row className="m-1 my-5">
             <Col xs={12} className="d-flex justify-content-between py-2">
               <h4>I tuoi eventi creati</h4>

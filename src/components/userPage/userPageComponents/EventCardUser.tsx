@@ -11,6 +11,7 @@ import ModificaEventoModal from "./ModificaEventoModal";
 import { userProfileFetch } from "../../../app/slices/userProfileSlice";
 import { ToastContainer, toast } from "react-toastify";
 import DelEvModal from "./DelEvModal";
+import SponsorEvModal from "./SponsorEvModal";
 interface evProps {
   ev: Ievento;
 }
@@ -38,7 +39,7 @@ export const eliminaEvento = async ({ idEv, token, username }: IEliminaEvento) =
     });
     if (response.ok) {
       if (username && token) {
-        console.log("evento eliminato");
+        // console.log("evento eliminato");
         notifyOfSucess();
 
         // userProfileFetch({ username: username, token: token });
@@ -57,11 +58,7 @@ const EventCardUser = ({ ev }: evProps) => {
   const dispatch = useAppDispatch();
   const [show, setShow] = useState(false);
   const [showDelet, setShowDelet] = useState(false);
-  // const handleEliminaEvento = async () => {
-  //   if (auth.username && auth.accessToken) {
-  //     eliminaEvento({ idEv: ev.idLuogo, token: auth.accessToken, username: auth.username });
-  //   }
-  // };
+  const [showSpons, setShowSPons] = useState(false);
 
   const sponsorizzaEvento = async (id: string) => {
     try {
@@ -125,11 +122,13 @@ const EventCardUser = ({ ev }: evProps) => {
         <div className="containerBtnGestioneEv">
           <button
             onClick={() => {
-              sponsorizzaEvento("" + ev.idLuogo);
+              // sponsorizzaEvento("" + ev.idLuogo);
+              setShowSPons(true);
             }}
           >
             sponsorizza
           </button>
+          <SponsorEvModal show={showSpons} setShow={setShowSPons} ev={ev} />
           <button
             onClick={() => {
               setShow(true);

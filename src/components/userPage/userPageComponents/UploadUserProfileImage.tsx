@@ -44,7 +44,7 @@ const UploadUserProfileImage = ({ show, setShow }: modalProps) => {
         }
       );
       if (response.ok) {
-        console.log("immagine caricata");
+        // console.log("immagine caricata");
         dispatch(userProfileFetch({ username: userProfile.username, token: auth.accessToken }));
       } else {
         console.log("errore");
