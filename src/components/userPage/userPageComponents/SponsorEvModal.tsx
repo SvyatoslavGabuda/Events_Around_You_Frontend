@@ -2,12 +2,16 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 
-import { ToastContainer, toast } from "react-toastify";
 import useAuth from "../../../auth/hooks/useAuth";
 
 import { useAppDispatch } from "../../../app/hooks";
 import { userProfileFetch } from "../../../app/slices/userProfileSlice";
 import { Ievento } from "../../../interfaces/luoghiDiInteresseInt";
+import StripePayment from "../../stripePay/StripePayment";
+import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import DotsLoading from "../../spinner/DotsLoading";
+import CardLoading from "../../spinner/CardLoading";
 interface SponEvProps {
   show: boolean;
   setShow: (show: boolean) => void;
@@ -16,12 +20,22 @@ interface SponEvProps {
 const SponsorEvModal = ({ show, setShow, ev }: SponEvProps) => {
   const { auth } = useAuth();
   const dispatch = useAppDispatch();
+  const [success, setSucces] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const notifyOfSucess = () =>
+    toast.info("Evento Sponsorizzato!", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
+  const notifyOfInsucess = () =>
+    toast.warn("Opss.. qualcosa è andato storto..", {
+      position: toast.POSITION.BOTTOM_CENTER,
+    });
+
   const handleClose = () => {
     setShow(false);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const sponsorEv = async () => {
     try {
       const response = await fetch("http://localhost:8081/events/sponsor/" + ev.idLuogo, {
         method: "PUT",
@@ -33,15 +47,25 @@ const SponsorEvModal = ({ show, setShow, ev }: SponEvProps) => {
       if (response.ok) {
         if (auth.username && auth.accessToken) {
           console.log("evento sponsorizzato");
+          notifyOfSucess();
           handleClose();
 
           dispatch(userProfileFetch({ username: auth.username, token: auth.accessToken }));
         }
       }
     } catch (error) {
+      notifyOfInsucess();
       console.log(error);
     }
   };
+  useEffect(() => {
+    // console.log({ success });
+    if (success) {
+      sponsorEv();
+      setSucces(false);
+    }
+  }, [success]);
+
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -49,14 +73,14 @@ const SponsorEvModal = ({ show, setShow, ev }: SponEvProps) => {
           <Modal.Title>Stai sponsorizzando {ev.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-              <Form.Check type="checkbox" label="Confermo di voler sponsorizzare" required />
-            </Form.Group>
-            <button className="modalBtbBasic" type="submit">
-              Sponsorizza
-            </button>
-          </Form>
+          <p>
+            Il costo della sponsorizzazione è di <strong>10 €</strong>. <br /> se sei sicuro di
+            voler sponsorizzare "{ev.title}" allora procedi con il pagamento
+          </p>
+
+          {/* <CardLoading /> */}
+          {loading && <CardLoading />}
+          <StripePayment setSuccess={setSucces} loading={loading} setLoading={setLoading} />
         </Modal.Body>
         <Modal.Footer>
           <Button className="modalBtbBasic" variant="secondary" onClick={handleClose}>
