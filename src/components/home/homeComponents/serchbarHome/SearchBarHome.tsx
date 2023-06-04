@@ -39,7 +39,7 @@ const SearchBarHome = ({ page }: params) => {
                 <Row>
                   <FloatingLabel
                     controlId="floatingInput"
-                    label="Where do you want to go?"
+                    label="Dove vorresti andare?"
                     className="mb-3"
                   >
                     <Form.Control

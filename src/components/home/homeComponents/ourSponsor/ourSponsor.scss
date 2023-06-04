@@ -2,7 +2,7 @@
   padding: 40px 0;
 
   .containerSponsor {
-    height: 800px;
+    height: 700px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
@@ -65,7 +65,7 @@
       .trapezio1 {
         height: 100%;
         clip-path: polygon(0 0, 100% 0%, 50% 100%, 0% 100%);
-        transition: 1s linear all;
+        transition: 0.5s linear all;
         transform: scale(1.1);
         &:hover {
           clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
@@ -92,7 +92,7 @@
       .trapezio2 {
         height: 100%;
         clip-path: polygon(0 0, 50% 0, 100% 100%, 0% 100%);
-        transition: 1s linear all;
+        transition: 0.5s linear all;
         transform: scale(1.1);
         &:hover {
           clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
@@ -118,7 +118,7 @@
       .trapezio3 {
         height: 100%;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%);
-        transition: 1s linear all;
+        transition: 0.5s linear all;
         transform: scale(1.1);
         &:hover {
           clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
@@ -144,7 +144,7 @@
       .trapezio4 {
         height: 100%;
         clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%);
-        transition: 1s linear all;
+        transition: 0.5s linear all;
         transform: scale(1.1);
         &:hover {
           clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
@@ -167,7 +167,7 @@
     .esagono {
       height: 100%;
       clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-      transition: 1s linear all;
+      transition: 0.5s linear all;
       &:hover {
         clip-path: polygon(0 0, 100% 0, 100% 50%, 100% 100%, 0 100%, 0% 50%);
       }

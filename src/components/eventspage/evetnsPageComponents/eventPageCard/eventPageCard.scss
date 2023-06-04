@@ -27,6 +27,13 @@
       font-size: 40px;
       font-weight: 800;
       margin: 0;
+
+      .eventCardSpons {
+        padding: 5px 5px;
+        font-size: 1.5rem;
+
+        color: #b0215e;
+      }
       @media (max-width: 992px) {
         font-size: 30px;
       }

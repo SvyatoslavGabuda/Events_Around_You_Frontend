@@ -121,6 +121,7 @@ const EventCardUser = ({ ev }: evProps) => {
         </div>
         <div className="containerBtnGestioneEv">
           <button
+            disabled={ev.sponsored}
             onClick={() => {
               // sponsorizzaEvento("" + ev.idLuogo);
               setShowSPons(true);

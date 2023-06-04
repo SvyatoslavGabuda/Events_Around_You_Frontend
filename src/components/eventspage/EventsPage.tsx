@@ -29,7 +29,7 @@ const EventsPage = () => {
   const userProfile: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
 
   const ev = useAppSelector((state) => state.sponsoredEv.events);
-  const evByCitta = useAppSelector((state) => state.sponsoredEvByCitta.events.content);
+  const evByCitta = useAppSelector((state) => state.sponsoredEvByCitta.events);
   const savedCity = useAppSelector((state) => state.sponsoredEvByCitta.citta);
   const evSerachGeneral = useAppSelector((state) => state.eventSearch.events);
   const evSerachInputValues: inputsValue = useAppSelector((state) => state.eventSearch.inputsValue);
@@ -133,19 +133,59 @@ const EventsPage = () => {
         <Row>
           <EventsPageSearchBar size={size} sort={sort} dir={dir} page={page} />
         </Row>
-        {!auth.accessToken && evByCitta?.length > 0 && (
+        {!auth.accessToken && evByCitta?.content.length > 0 && (
           <>
             <Row className="mt-5">
-              <h2> Eventi Di maggior sucesso trovati:</h2>
+              <h2> {evByCitta.totalElements} Eventi Di maggior sucesso trovati</h2>
+              <div className="btnPagin">
+                <button
+                  className="prev"
+                  disabled={prevStatus}
+                  onClick={() => {
+                    if (page === 1) {
+                      setPrevStatus(true);
+                      setNextStatus(false);
+                      setPage(page - 1);
+                      console.log("Non puoi andare in negativo");
+                    } else {
+                      setNextStatus(false);
+                      setPage(page - 1);
+                    }
+                    scrollToTop();
+                  }}
+                >
+                  <MdOutlineKeyboardDoubleArrowLeft />
+                </button>
+                <p>
+                  page {page + 1} of {evByCitta?.totalPages}
+                </p>
+                <button
+                  className="next"
+                  disabled={nextStatus}
+                  onClick={() => {
+                    if (page === evByCitta?.totalPages - 2) {
+                      setNextStatus(true);
+                      setPage(page + 1);
+                      setPrevStatus(false);
+                    } else {
+                      setPage(page + 1);
+                      setPrevStatus(false);
+                    }
+                    scrollToTop();
+                  }}
+                >
+                  <MdOutlineKeyboardDoubleArrowRight />
+                </button>
+              </div>
             </Row>
-            {evByCitta?.length > 0 ? (
+            {evByCitta?.content.length > 0 ? (
               <>
-                {evByCitta?.map((eve: Ievento) => (
+                {evByCitta?.content.map((eve: Ievento) => (
                   <EventPageCard
                     ev={eve}
                     key={eve.idLuogo + "eve"}
                     updateF={() => {
-                      dispatch(sponsoredEvFetchbyCity({ city: savedCity, page: 0, size: 4 }));
+                      dispatch(sponsoredEvFetchbyCity({ city: savedCity, page: page, size: 4 }));
                     }}
                   />
                 ))}

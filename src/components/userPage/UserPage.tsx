@@ -115,7 +115,7 @@ const UserPage = () => {
           <Row>
             <Col className="mt-3 ms-3">
               <button className="creaEvento" onClick={() => setShowComm(!showComm)}>
-                {!showComm ? "Vedi i tuoi commenti" : "Nascondi i tuoi commenti"}
+                {!showComm ? "Vedi i commenti" : "Nascondi i commenti"}
               </button>
             </Col>
           </Row>

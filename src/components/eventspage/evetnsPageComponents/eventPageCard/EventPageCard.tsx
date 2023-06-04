@@ -19,6 +19,7 @@ import { getEventByID } from "../../../../app/slices/eventsSlices/eventByIdSlice
 import { TbInfoSquareRounded } from "react-icons/tb";
 import { GoCommentDiscussion, GoReport } from "react-icons/go";
 import { BiCommentAdd } from "react-icons/bi";
+import { RiShieldStarLine } from "react-icons/ri";
 
 interface evProps {
   ev: Ievento;
@@ -81,7 +82,16 @@ const EventPageCard = ({ ev, updateF }: evProps) => {
         <Col xs={12} className="py-0">
           <div className="eventPageCard">
             <div className="eventPageTexContainer">
-              <h2 className="eventPageTitolo">{ev.title}</h2>
+              <h2 className="eventPageTitolo">
+                {ev.title}
+                {ev.sponsored ? (
+                  <span className="eventCardSpons">
+                    <RiShieldStarLine />
+                  </span>
+                ) : (
+                  <></>
+                )}
+              </h2>
               <h3 className="eventPageSottoTitolo">{ev.subTitle}</h3>
               <div className="eventoPageTimeContainer">
                 <time className="eventPageTime">

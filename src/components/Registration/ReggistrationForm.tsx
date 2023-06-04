@@ -7,7 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { FaCheck } from "react-icons/fa";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{2,24}$/;
+const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{4,24}$/;
 const ReggistrationForm = () => {
   const navigate = useNavigate();
   const userRef = useRef();
@@ -99,10 +99,10 @@ const ReggistrationForm = () => {
           <Col xs={12} md={8} lg={6}>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
-                <Form.Label>Email address</Form.Label>
+                <Form.Label>Indirizzio Email</Form.Label>
                 <Form.Control
                   type="email"
-                  placeholder="Enter email"
+                  placeholder="example@example.com"
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   value={email}
@@ -110,14 +110,21 @@ const ReggistrationForm = () => {
                   onBlur={() => setEmailFocus(false)}
                 />
                 <Form.Text className={emailFocus && email ? "text-muted" : "d-none"}>
-                  We'll never share your email with anyone else.
+                  Non condivideremo mai la tua email con nessun altro.
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Username</Form.Label>
+                <Form.Label>
+                  Username
+                  <FaCheck style={{ color: "green" }} className={validName ? "" : "d-none"} />
+                  <TiTimes
+                    style={{ color: "red" }}
+                    className={validName || !userFocus ? "d-none" : ""}
+                  />
+                </Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter Username"
+                  placeholder="Inserisci un tuo Username"
                   onChange={(e) => setUser(e.target.value)}
                   required
                   value={user}
@@ -125,27 +132,27 @@ const ReggistrationForm = () => {
                   onBlur={() => setUserFocus(false)}
                 />
                 <Form.Text className={userFocus && user && !validName ? "text-muted" : "d-none"}>
-                  4 to 24 characters.
+                  Da 4 a 24 caratteri.
                   <br />
-                  Must begin with a letter.
+                  Deve iniziare con una lettera.
                   <br />
-                  Letters, numbers, underscores, hyphens allowed.
+                  Sono consentiti, lettere, numeri, trattini.
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Name</Form.Label>
+                <Form.Label>Nome</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter yor name"
+                  placeholder="Inserisci il tuo nome"
                   onChange={(e) => setName(e.target.value)}
                   value={name}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>Lastname</Form.Label>
+                <Form.Label>Cognome</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Enter yor surname"
+                  placeholder="Inserisci il tuo cognome"
                   onChange={(e) => setLastname(e.target.value)}
                   value={lastname}
                 />
@@ -171,19 +178,22 @@ const ReggistrationForm = () => {
                 />
 
                 <Form.Text className={pwdFocus && !validPwd ? "text-muted" : "d-none"}>
-                  4 to 24 characters.
+                  Da 4 a 24 caratteri.
                   <br />
-                  Must include uppercase and lowercase letters, a number and a special character.
+                  Deve includere lettere maiuscole e minuscole, un numero e un carattere speciale.
                   <br />
-                  Allowed special characters: <span aria-label="exclamation mark">!</span>
+                  Caratteri speciali consentiti: <span aria-label="exclamation mark">!</span>
                   <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span>
                   <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
                 </Form.Text>
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>
-                  Confirm Password{" "}
-                  <FaCheck style={{ color: "green" }} className={validMatch ? "" : "d-none"} />
+                  Conferma la password
+                  <FaCheck
+                    style={{ color: "green" }}
+                    className={validMatch && validPwd ? "" : "d-none"}
+                  />
                   <TiTimes
                     style={{ color: "red" }}
                     className={validMatch || !matchPwd ? "d-none" : ""}
@@ -207,14 +217,14 @@ const ReggistrationForm = () => {
                 />
 
                 <Form.Text className={matchFocus && !validMatch ? "text-muted" : "d-none"}>
-                  Must match the first password input field.
+                  Deve corrispondere al campo di immissione della password.
                 </Form.Text>
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicCheckbox">
                 <Form.Check
                   type="checkbox"
-                  label="I agree with term and policy"
+                  label="Accetto termini e condizioni"
                   onChange={(e) => setInputCheked(!inputCheked)}
                   checked={inputCheked}
                 />

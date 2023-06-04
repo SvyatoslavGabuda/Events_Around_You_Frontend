@@ -92,9 +92,7 @@ const Segnalazione = ({ segnalazione, setSegnalazioni }: propsSeg) => {
             <p>descrizione del evento: {segnalazione.cosaSegnalata.description}</p>
           </Col>
           <Col xs={12} md={6} lg={6}>
-            <h6>
-              Utente che ha segnalato: <br /> {segnalazione.utenteSegnalatore.username}
-            </h6>
+            <h6>Utente che ha segnalato: {segnalazione.utenteSegnalatore.username}</h6>
             <p>
               motivazione della segnalazione:
               <br /> {segnalazione.contenuto}

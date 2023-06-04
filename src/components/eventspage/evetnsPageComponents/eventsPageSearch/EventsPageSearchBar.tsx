@@ -106,7 +106,7 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
       }
     } else {
       if (dove !== "") {
-        dispatch(sponsoredEvFetchbyCity({ city: dove, page: 0, size: 4 }));
+        dispatch(sponsoredEvFetchbyCity({ city: dove, page: page, size: 4 }));
       }
     }
   };
@@ -187,6 +187,10 @@ const EventsPageSearchBar = ({ size, sort, dir, page }: searchParams) => {
             sort: sort,
           })
         );
+      }
+    } else {
+      if (dove !== "") {
+        dispatch(sponsoredEvFetchbyCity({ city: dove, page: page, size: 4 }));
       }
     }
   }, [page, sort, size, dir]);

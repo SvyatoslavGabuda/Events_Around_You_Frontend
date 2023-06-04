@@ -26,12 +26,16 @@
 }
 .containerEvCardB {
   background: rgb(255, 253, 253, 0.5);
+  margin: 10px;
+  border-radius: 10px;
+  padding: 5px 8px;
 
   .evCardBimgCont {
     width: 100%;
     overflow: hidden;
     object-fit: cover;
     object-position: center;
+    border-radius: 10px;
     img {
       height: 300px;
       object-fit: cover;

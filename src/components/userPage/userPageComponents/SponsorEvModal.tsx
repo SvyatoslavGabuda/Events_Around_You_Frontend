@@ -23,7 +23,7 @@ const SponsorEvModal = ({ show, setShow, ev }: SponEvProps) => {
   const [success, setSucces] = useState(false);
   const [loading, setLoading] = useState(true);
   const notifyOfSucess = () =>
-    toast.info("Evento Sponsorizzato!", {
+    toast.success("Evento Sponsorizzato!", {
       position: toast.POSITION.BOTTOM_CENTER,
     });
   const notifyOfInsucess = () =>

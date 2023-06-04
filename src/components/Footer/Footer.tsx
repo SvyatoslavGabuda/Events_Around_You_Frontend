@@ -6,7 +6,7 @@ const Footer = () => {
       <Container>
         <Row className="justify-content-center">
           <footer className="text-center">
-            <p>Events Aroud You </p>© {new Date().toLocaleDateString()}
+            <p>Events Aroud You </p> © {new Date().getFullYear()}
           </footer>
         </Row>
       </Container>

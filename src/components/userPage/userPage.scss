@@ -139,11 +139,14 @@
 
       // color: #f0f8ff;
       color: rgb(148, 39, 126);
-      &:hover {
+      &:disabled {
+        color: #6f6f6f;
+      }
+      &:not(:disabled):hover {
         color: #3e5d71;
         box-shadow: 0px 0px 2px 1px rgba(0, 0, 0, 0.75);
       }
-      &:nth-child(3) {
+      &:nth-child(4) {
         // background-color: rgb(157, 9, 9);
         background-color: transparent;
         color: rgb(157, 9, 9);
