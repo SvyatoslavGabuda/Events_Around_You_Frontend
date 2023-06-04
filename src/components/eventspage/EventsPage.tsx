@@ -133,10 +133,10 @@ const EventsPage = () => {
         <Row>
           <EventsPageSearchBar size={size} sort={sort} dir={dir} page={page} />
         </Row>
-        {!auth.accessToken && evByCitta?.content.length > 0 && (
+        {!auth.accessToken && evByCitta?.content?.length > 0 && (
           <>
             <Row className="mt-5">
-              <h2> {evByCitta.totalElements} Eventi Di maggior sucesso trovati</h2>
+              <h2> {evByCitta?.totalElements} Eventi Di maggior sucesso trovati</h2>
               <div className="btnPagin">
                 <button
                   className="prev"
@@ -178,7 +178,7 @@ const EventsPage = () => {
                 </button>
               </div>
             </Row>
-            {evByCitta?.content.length > 0 ? (
+            {evByCitta?.content?.length > 0 ? (
               <>
                 {evByCitta?.content.map((eve: Ievento) => (
                   <EventPageCard
