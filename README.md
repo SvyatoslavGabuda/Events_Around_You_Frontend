@@ -57,7 +57,7 @@ Please refer to the [Bing Maps documentation](https://docs.microsoft.com/en-us/b
 ### Stripe API
 
 The Stripe API is used for payment processing in this project. Stripe provides a secure and reliable platform for handling payments. 
-Follow these steps to integrate the Stripe API into your project:
+Follow these steps to integrate the Stripe API into this project:
 
 1. Create an account on the Stripe website by visiting stripe.com and signing up. This will provide you with access to the Stripe dashboard and essential features.
 2. Once you have created your Stripe account, you need to obtain API keys. These keys serve as the authentication mechanism for your application to communicate securely with the Stripe API.
@@ -66,7 +66,7 @@ Follow these steps to integrate the Stripe API into your project:
 REACT_APP_STRIPE_KEY="Your-Publishable-key"
 Replace "your-api-key" with the actual publishable key you obtained from Stripe. This key should be the public-facing key and not the secret key.
 
-4. Additionally, for the back end of your application, you need to add the private key to the application.properties file or the appropriate configuration file in your server-side code. This ensures that the back end can securely communicate with the Stripe API using the secret key.
+4. Additionally, for the back end of this application, you need to add the private key to the application.properties file or the appropriate configuration file in your server-side code. This ensures that the back end can securely communicate with the Stripe API using the secret key.
 
 Please refer to the [Stripe documentation](https://stripe.com/docs) for more information on setting up and using the Stripe API for payment processing.
 
