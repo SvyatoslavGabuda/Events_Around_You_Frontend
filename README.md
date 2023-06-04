@@ -30,10 +30,46 @@ The FrontEnd has been developed using TypeScript and React as framework. The mai
 - Redux Persist
 - Redux Persist Transform Encrypt
 
-## External API
-This project utilizes The Bing Maps V8 Map Control SDK as an external API to implement maps. To use this API, you will need to obtain an API key from Bing Maps. The API key should be added to the application's configuration file or stored securely on the server-side.
+## External APIs
 
-Please refer to the Bing Maps documentation for more information on using the Bing Maps V8 Map Control SDK.
+This project utilizes the following external APIs:
+
+### Bing Maps V8 Map Control SDK
+
+
+The Bing Maps V8 Map Control SDK is used to implement maps in this project. To use this API, you will need to obtain an API key from Bing Maps.
+
+To configure the API key, follow these steps:
+
+1. Create a new `.env` file in the root directory of the application.
+2. Copy the content from the provided `.env.default` file and paste it into the new `.env` file.
+3. Obtain an API key from Bing Maps by signing up for an account and creating a new project.
+4. Add the obtained API key to the `.env` file as follows:
+
+REACT_APP_BINGMAPS_KEY="your-api-key"
+
+Replace `your-api-key` with the actual API key you obtained from Bing Maps.
+
+Make sure to keep the `.env` file secure and never commit it to a public repository.
+
+Please refer to the [Bing Maps documentation](https://docs.microsoft.com/en-us/bingmaps/v8-web-control/) for more information on using the Bing Maps V8 Map Control SDK.
+
+### Stripe API
+
+The Stripe API is used for payment processing in this project. Stripe provides a secure and reliable platform for handling payments. 
+Follow these steps to integrate the Stripe API into your project:
+
+1. Create an account on the Stripe website by visiting stripe.com and signing up. This will provide you with access to the Stripe dashboard and essential features.
+2. Once you have created your Stripe account, you need to obtain API keys. These keys serve as the authentication mechanism for your application to communicate securely with the Stripe API.
+3. In your project, locate the .env file (if it doesn't exist, create one in the root directory) and update it with the following line:
+
+REACT_APP_STRIPE_KEY="Your-Publishable-key"
+Replace "your-api-key" with the actual publishable key you obtained from Stripe. This key should be the public-facing key and not the secret key.
+
+4. Additionally, for the back end of your application, you need to add the private key to the application.properties file or the appropriate configuration file in your server-side code. This ensures that the back end can securely communicate with the Stripe API using the secret key.
+
+Please refer to the [Stripe documentation](https://stripe.com/docs) for more information on setting up and using the Stripe API for payment processing.
+
 
 
 ## Prerequisites
