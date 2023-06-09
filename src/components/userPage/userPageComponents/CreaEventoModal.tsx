@@ -42,21 +42,23 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
   const dispatch = useAppDispatch();
   const userProfile: IuserProfile = useAppSelector((state) => state.userProfile.userLogged);
   // Ho dato dei valori di defaut per una creazione più veloce durante il testing
-  const [lat, setLat] = useState<number>(45.464211);
-  const [lng, setLng] = useState<number>(9.204659);
-  const [title, setTitle] = useState<string>("My Event");
-  const [subTitle, setSubTitle] = useState<string>("My Event");
-  const [description, setDescription] = useState<string>("Desciptio...");
+  const [lat, setLat] = useState<number>(45.463221);
+  const [lng, setLng] = useState<number>(9.204529);
+  const [title, setTitle] = useState<string>("Capstone Presentation");
+  const [subTitle, setSubTitle] = useState<string>("My Capstone Presentation");
+  const [description, setDescription] = useState<string>(
+    "My Capstone Presentation: A culmination of hard work, creativity, and passion. Excited to share my journey and insights"
+  );
   const [formData, setFormData] = useState<FormData>({ file: null });
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [endDate, setEndDate] = useState<Date>(new Date());
-  const [duration, setDuration] = useState<number>(200);
+  const [duration, setDuration] = useState<number>(3);
   const [numMaxPartecipants, setNumMaxPartecipants] = useState<number>(50);
   //dati per l'indirizzo del evento
   const [via, setVia] = useState<string>("via Roma");
   const [civico, setCivico] = useState<number>(20);
   const [citta, setCitta] = useState<string>("Milano");
-  const [cap, setCap] = useState<number>(20000);
+  const [cap, setCap] = useState<number>(20120);
   const [provincia, setProvincia] = useState<string>("Lombardia");
   //controllo di avvenuto salvataggio
   const [eventoSalvato, setEventoSalvato] = useState<Ievento | null>(null);
@@ -185,7 +187,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                       <Form.Label>lat</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter email"
+                        placeholder="Enter lat"
                         onChange={(e) => setLat(Number(e.target.value))}
                         value={lat}
                       />
@@ -196,7 +198,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                       <Form.Label>lng</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter email"
+                        placeholder="Enter Lng"
                         onChange={(e) => setLng(Number(e.target.value))}
                         value={lng}
                       />
@@ -216,7 +218,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   <Form.Label>SubTitle</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
+                    placeholder="Enter Subtitle"
                     onChange={(e) => setSubTitle(e.target.value)}
                     value={subTitle}
                   />
@@ -224,8 +226,10 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                 <Form.Group className="mb-3">
                   <Form.Label>desciption</Form.Label>
                   <Form.Control
-                    type="text"
-                    placeholder="Enter email"
+                    as="textarea"
+                    maxLength={255}
+                    placeholder="Enter a description"
+                    style={{ height: "120px" }}
                     onChange={(e) => setDescription(e.target.value)}
                     value={description}
                   />
@@ -237,7 +241,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                       <Form.Label>startDate</Form.Label>
                       <Form.Control
                         type="datetime-local"
-                        placeholder="Enter email"
+                        placeholder="Enter time"
                         onChange={(e) => setStartDate(new Date(e.target.value))}
                       />
                     </Form.Group>
@@ -247,7 +251,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                       <Form.Label>endDate</Form.Label>
                       <Form.Control
                         type="datetime-local"
-                        placeholder="Enter email"
+                        placeholder="Enter time"
                         onChange={(e) => setEndDate(new Date(e.target.value))}
                       />
                     </Form.Group>
@@ -259,7 +263,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                       <Form.Label>duration in minutes</Form.Label>
                       <Form.Control
                         type="text"
-                        placeholder="Enter email"
+                        placeholder="Enter a duration in min"
                         onChange={(e) => setDuration(Number(e.target.value))}
                         value={duration}
                       />
@@ -297,7 +301,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   <Form.Label>Cap</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
+                    placeholder="Enter cap"
                     onChange={(e) => setCap(Number(e.target.value))}
                     value={cap}
                   />
@@ -306,7 +310,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   <Form.Label>civico</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
+                    placeholder="Enter n civico"
                     onChange={(e) => setCivico(Number(e.target.value))}
                     value={civico}
                   />
@@ -315,7 +319,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   <Form.Label>via</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
+                    placeholder="Enter via"
                     onChange={(e) => setVia(e.target.value)}
                     value={via}
                   />
@@ -324,7 +328,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   <Form.Label>citta</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
+                    placeholder="Enter citta"
                     onChange={(e) => setCitta(e.target.value)}
                     value={citta}
                   />
@@ -333,7 +337,7 @@ const CreaEventoModal = ({ show, setShow }: modalProps) => {
                   <Form.Label>provinca</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter email"
+                    placeholder="Enter provincia"
                     onChange={(e) => setProvincia(e.target.value)}
                     value={provincia}
                   />

@@ -48,7 +48,7 @@ const Header = () => {
                   </Link>
                   {auth?.roles?.find((role: any) => role === "ROLE_ADMIN") ? (
                     <Link to="/admin" className="nav-link">
-                      admin{" "}
+                      Admin{" "}
                     </Link>
                   ) : (
                     <></>

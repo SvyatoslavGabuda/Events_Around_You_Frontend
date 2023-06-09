@@ -85,7 +85,7 @@ export const eventSearch = createAsyncThunk(
       );
       if (response.ok) {
         const data = await response.json();
-
+        console.log({ data });
         return data;
       } else {
         console.log("non ha funzionato");
