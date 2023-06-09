@@ -64,7 +64,7 @@ Follow these steps to integrate the Stripe API into this project:
 3. In your project, locate the .env file (if it doesn't exist, create one in the root directory) and update it with the following line:
 
 REACT_APP_STRIPE_KEY="Your-Publishable-key"
-Replace "your-api-key" with the actual publishable key you obtained from Stripe. This key should be the public-facing key and not the secret key.
+Replace "Your-Publishable-key" with the actual publishable key you obtained from Stripe. This key should be the public-facing key and not the secret key.
 
 4. Additionally, for the back end of this application, you need to add the private key to the application.properties file or the appropriate configuration file in your server-side code. This ensures that the back end can securely communicate with the Stripe API using the secret key.
 
@@ -98,4 +98,4 @@ In the project directory, you can run the following scripts:
 
 Please note that you should avoid running the eject script unless you are familiar with the underlying configuration.
 ## License
-This project is licensed under the MIT License. You can find more information in the LICENSE file.
+This project is licensed under the MIT License. 
